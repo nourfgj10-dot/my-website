@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix Dev Tools - منصة أدوات المطورين</title>
+    <style>
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        
+        body { 
+            font-family: 'Courier New', monospace;
+            background: #000000;
+            color: #00ff00;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* تأثير Matrix الخلفي */
+        #matrixCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 30px;
+            background: rgba(0, 20, 0, 0.8);
+            border: 1px solid #00ff00;
+            border-radius: 0;
+            box-shadow: 0 0 20px #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            color: #00ff00;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            color: #00ff00;
+            opacity: 0.8;
+        }
+
+        .tools-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px; 
+        }
+
+        .tool-card { 
+            background: rgba(0, 20, 0, 0.7);
+            padding: 25px;
+            border: 1px solid #00ff00;
+            box-shadow: 0 0 15px #00ff00;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00ff00, #00cc00, #009900, #00ff00);
+            z-index: -1;
+            animation: borderGlow 3s linear infinite;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px #00ff00;
+        }
+
+        .tool-card h3 {
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            color: #00ff00;
+            border-bottom: 1px solid #00ff00;
+            padding-bottom: 10px;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        textarea, input { 
+            width: 100%; 
+            padding: 12px;
+            margin: 8px 0;
+            background: rgba(0, 10, 0, 0.8);
+            border: 1px solid #00ff00;
+            border-radius: 0;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            resize: vertical;
+        }
+
+        textarea:focus, input:focus {
+            outline: none;
+            box-shadow: 0 0 10px #00ff00;
+        }
+
+        button { 
+            background: transparent;
+            color: #00ff00; 
+            border: 1px solid #00ff00;
+            padding: 12px 20px;
+            margin: 5px;
+            border-radius: 0;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button:hover {
+            background: #00ff00;
+            color: #000000;
+            box-shadow: 0 0 15px #00ff00;
+            transform: translateY(-2px);
+        }
+
+        .result-box {
+            background: rgba(0, 15, 0, 0.9);
+            border: 1px solid #00ff00;
+            border-radius: 0;
+            padding: 15px;
+            margin-top: 10px;
+            min-height: 50px;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+        }
+
+        .stats-box {
+            background: rgba(0, 30, 0, 0.8);
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            padding: 15px;
+            margin-top: 10px;
+            font-family: 'Courier New', monospace;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00; }
+            to { text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00; }
+        }
+
+        @keyframes borderGlow {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+
+        /* تأثير الكتابة على الشاشة */
+        .matrix-text {
+            color: #00ff00;
+            text-shadow: 0 0 5px #00ff00;
+        }
+    </style>
+</head>
+<body>
+    <!-- خلفية Matrix -->
+    <canvas id="matrixCanvas"></canvas>
+
+    <div class="container">
+        <div class="header">
+            <h1>MATRIX DEV TOOLS</h1>
+            <p>منصة أدوات المطورين - النظام يعمل</p>
+        </div>
+        
+        <div class="tools-grid">
+            <!-- أداة عداد الكلمات Matrix -->
+            <div class="tool-card">
+                <h3>📊 SYSTEM TEXT ANALYZER</h3>
+                <textarea id="textInput" placeholder="أدخل النص للتحليل..." rows="6" class="matrix-text"></textarea>
+                <button onclick="countText()">🔍 تحليل النص</button>
+                <div id="coloredText" class="result-box matrix-text"></div>
+                <div id="textStats" class="stats-box matrix-text"></div>
+            </div>
+            
+            <!-- أداة مولد الألوان Matrix -->
+            <div class="tool-card">
+                <h3>🎨 MATRIX COLOR GENERATOR</h3>
+                <button onclick="generateColor()">⚡ توليد لون مصفوفة</button>
+                <div id="colorResult" class="result-box matrix-text" style="text-align: center; font-weight: bold; font-size: 18px;">
+                    اللون: #00FF00
+                </div>
+                <input type="text" id="colorCode" readonly class="matrix-text" style="text-align: center; font-weight: bold;">
+            </div>
+
+            <!-- أداة مشفر Base64 Matrix -->
+            <div class="tool-card">
+                <h3>🔐 MATRIX ENCODER</h3>
+                <textarea id="base64Input" placeholder="أدخل النص للتشفير..." rows="4" class="matrix-text"></textarea>
+                <div style="display: flex; gap: 10px;">
+                    <button onclick="encodeBase64()">🔒 تشفير</button>
+                    <button onclick="decodeBase64()">🔓 فك التشفير</button>
+                </div>
+                <textarea id="base64Output" placeholder="الناتج..." rows="4" readonly class="matrix-text"></textarea>
+            </div>
+
+            <!-- أداة محول JSON/XML Matrix -->
+            <div class="tool-card">
+                <h3>🔄 DATA CONVERTER</h3>
+                <textarea id="jsonInput" placeholder='أدخل JSON أو XML...' rows="4" class="matrix-text"></textarea>
+                <div style="display: flex; gap: 10px;">
+                    <button onclick="jsonToXml()">⬅️ TO XML</button>
+                    <button onclick="xmlToJson()">➡️ TO JSON</button>
+                </div>
+                <textarea id="xmlOutput" placeholder="الناتج..." rows="4" readonly class="matrix-text"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // تأثير Matrix الخلفي
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const chars = "010101010110010101101001011011100111001101101001011011110110111001100001011011000010000001101100011011110111001001100101011011010010000001101001011100000111001101110101011011010010000001100100011011110110110001101111011100100010000001110011011010010111010000100000011000010110110101100101011101000010000001101111011001000110100101101111001000000111010001100101011011010111000001101111011100100010000001101001011011100110001101101001011100000110100101110101011011100111010000100000011001100111010101100111011010010111010001110011011001010111001100100000011001010111010000100000011011000110000101100101011101000010000001101101011001010110110101100101011011100111010001101001011000100111010101110011001000000110001101101111011011100111001101100101011000110111010001100101011101010111001000100000011000010110010001101001011100000110100101110011011000110110100101101110011001110010000001100101011011000110100101110100001000000111001101100101011001000010000001100100011010010110000101101101001000000111011001101111011011000111010101110000011101000110000101110100011001010111001000100000011001000110111101101100011011110111001001100101011011010010000001110110011001010111001001100111011001010111010000100000011011100111010101101100011011000110000100100000011011000110000101100011011010010110010101110011001000000111001101100101011001000010000001101101011010010110000101110011";
+        const charArray = chars.split('');
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+        
+        for(let i = 0; i < columns; i++) {
+            drops[i] = 1;
+        }
+        
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#00ff00';
+            ctx.font = fontSize + 'px monospace';
+            
+            for(let i = 0; i < drops.length; i++) {
+                const text = charArray[Math.floor(Math.random() * charArray.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                
+                if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        
+        setInterval(drawMatrix, 35);
+
+        // أدوات المطورين
+        function countText() {
+            const text = document.getElementById('textInput').value;
+            const chars = text.length;
+            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            const lines = text.split('\n').length;
+            
+            let coloredText = '';
+            const wordsArray = text.split(/(\s+)/);
+            
+            wordsArray.forEach(word => {
+                if (word.trim().length > 0) {
+                    const greenShade = '#' + Math.floor(Math.random()*56 + 200).toString(16).padStart(2, '0') + 'ff00';
+                    coloredText += `<span style="color: ${greenShade}; font-weight: bold;">${word}</span>`;
+                } else {
+                    coloredText += word;
+                }
+            });
+            
+            document.getElementById('coloredText').innerHTML = coloredText || '<span style="color: #00ff00;">لا يوجد نص للتحليل</span>';
+            document.getElementById('textStats').innerHTML = `
+                <strong>📈 SYSTEM ANALYSIS:</strong><br>
+                CHARS: <b>${chars}</b> | WORDS: <b>${words}</b> | LINES: <b>${lines}</b>
+            `;
+        }
+
+        function generateColor() {
+            const greenShades = ['#00ff00', '#00cc00', '#009900', '#00ff88', '#00ff44', '#88ff00', '#44ff00'];
+            const hex = greenShades[Math.floor(Math.random() * greenShades.length)];
+            const colorElement = document.getElementById('colorResult');
+            colorElement.style.backgroundColor = hex;
+            colorElement.style.color = '#000000';
+            colorElement.innerHTML = `🎨 MATRIX COLOR: ${hex}`;
+            document.getElementById('colorCode').value = hex;
+        }
+
+        function encodeBase64() {
+            const text = document.getElementById('base64Input').value;
+            const encoded = btoa(unescape(encodeURIComponent(text)));
+            document.getElementById('base64Output').value = encoded;
+        }
+
+        function decodeBase64() {
+            try {
+                const encoded = document.getElementById('base64Input').value;
+                const decoded = decodeURIComponent(escape(atob(encoded)));
+                document.getElementById('base64Output').value = decoded;
+            } catch (error) {
+                document.getElementById('base64Output').value = '❌ SYSTEM ERROR: INVALID ENCODING';
+            }
+        }
+
+        function jsonToXml() {
+            try {
+                const jsonInput = document.getElementById('jsonInput').value;
+                const jsonObj = JSON.parse(jsonInput);
+                const xml = objectToXml(jsonObj);
+                document.getElementById('xmlOutput').value = xml;
+            } catch (error) {
+                document.getElementById('xmlOutput').value = '❌ SYSTEM ERROR: ' + error.message;
+            }
+        }
+
+        function xmlToJson() {
+            try {
+                const xmlInput = document.getElementById('jsonInput').value;
+                if (!xmlInput.trim()) {
+                    document.getElementById('xmlOutput').value = '⚡ ENTER XML DATA';
+                    return;
+                }
+                
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(xmlInput, "text/xml");
+                
+                if (xmlDoc.getElementsByTagName("parsererror").length > 0) {
+                    throw new Error('INVALID XML FORMAT');
+                }
+                
+                const jsonResult = xmlToJsonConverter(xmlDoc.documentElement);
+                document.getElementById('xmlOutput').value = JSON.stringify(jsonResult, null, 2);
+            } catch (error) {
+                document.getElementById('xmlOutput').value = '❌ SYSTEM ERROR: ' + error.message;
+            }
+        }
+
+        function xmlToJsonConverter(xml) {
+            const obj = {};
+            
+            if (xml.nodeType === 1) {
+                if (xml.attributes.length > 0) {
+                    obj["@attributes"] = {};
+                    for (let j = 0; j < xml.attributes.length; j++) {
+                        const attribute = xml.attributes.item(j);
+                        obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
+                    }
+                }
+            } else if (xml.nodeType === 3) {
+                obj = xml.nodeValue;
+            }
+            
+            if (xml.hasChildNodes()) {
+                for (let i = 0; i < xml.childNodes.length; i++) {
+                    const item = xml.childNodes.item(i);
+                    const nodeName = item.nodeName;
+                    
+                    if (typeof obj[nodeName] === "undefined") {
+                        obj[nodeName] = xmlToJsonConverter(item);
+                    } else {
+                        if (typeof obj[nodeName].push === "undefined") {
+                            const old = obj[nodeName];
+                            obj[nodeName] = [];
+                            obj[nodeName].push(old);
+                        }
+                        obj[nodeName].push(xmlToJsonConverter(item));
+                    }
+                }
+            }
+            
+            return obj;
+        }
+
+        function objectToXml(obj, rootName = 'root') {
+            let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<${rootName}>\n`;
+            
+            for (const key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    xml += `  <${key}>`;
+                    if (typeof obj[key] === 'object' && !Array.isArray(obj[key])) {
+                        xml += '\n' + objectToXml(obj[key], key).split('\n').slice(1).join('\n');
+                    } else if (Array.isArray(obj[key])) {
+                        obj[key].forEach(item => {
+                            xml += `\n    <${key.slice(0, -1)}>${item}</${key.slice(0, -1)}>`;
+                        });
+                        xml += '\n  ';
+                    } else {
+                        xml += obj[key];
+                    }
+                    xml += `</${key}>\n`;
+                }
+            }
+            
+            xml += `</${rootName}>`;
+            return xml;
+        }
+
+        // تحديث تلقائي
+        document.getElementById('textInput').addEventListener('input', countText);
+    </script>
+</body>
+</html>
