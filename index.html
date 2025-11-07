@@ -137,62 +137,29 @@
             font-weight: bold;
         }
 
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            padding: 3rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
-            color: white;
+        .hidden-stats {
+            display: none; /* إخفاء الإحصائيات */
         }
 
-        .stat-item {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 2rem;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-        }
-
-        .visitor-counter {
-            background: rgba(255, 255, 255, 0.95);
-            margin: 2rem auto;
-            padding: 2rem;
-            border-radius: 15px;
-            text-align: center;
-            max-width: 1200px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .counter-number {
-            font-size: 3rem;
-            font-weight: bold;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 1rem 0;
-        }
-
-        .counter-label {
-            font-size: 1.2rem;
-            color: #666;
-            margin-bottom: 1rem;
+        .live-indicator {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
         }
 
         .live-dot {
             display: inline-block;
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             background: #10b981;
             border-radius: 50%;
-            margin-right: 10px;
+            margin-right: 8px;
             animation: pulse 2s infinite;
         }
 
@@ -225,20 +192,21 @@
             .apps-grid {
                 grid-template-columns: 1fr;
             }
-            
-            .counter-number {
-                font-size: 2rem;
-            }
         }
     </style>
 </head>
 <body>
+    <!-- مؤشر النشاط الخفي -->
+    <div class="live-indicator">
+        <span class="live-dot"></span>
+        <span id="statusText">نشط الآن</span>
+    </div>
+
     <header class="header">
         <nav class="nav">
             <div class="logo">صهيب للتطبيقات</div>
             <div class="nav-links">
                 <a href="#apps" class="btn">التطبيقات</a>
-                <a href="#stats" class="btn">الإحصائيات</a>
             </div>
         </nav>
     </header>
@@ -249,28 +217,7 @@
             <p>نحو عالم رقمي مبتكر - تطبيقات ذكية لحياة أسهل</p>
             <div>
                 <a href="#apps" class="btn">استكشف التطبيقات</a>
-                <a href="#visitors" class="btn btn-premium">👀 شاهد الزوار</a>
             </div>
-        </div>
-    </section>
-
-    <!-- 🔥 إحصائيات الموقع -->
-    <section id="stats" class="stats">
-        <div class="stat-item">
-            <div class="stat-number" id="appDownloads">5,892</div>
-            <div>تحميل تطبيق</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number" id="toolsUsed">12,456</div>
-            <div>أداة مستخدمة</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number" id="countries">24</div>
-            <div>دولة</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number" id="rating">4.8</div>
-            <div>تقييم ⭐</div>
         </div>
     </section>
 
@@ -283,7 +230,7 @@
             <h3>Code Converter Pro</h3>
             <p>محول ذكي بين لغات البرمجة - دفع آمن عبر Binance</p>
             <div style="margin-top: 1rem;">
-                <a href="code-converter.html?v=4" class="btn" style="padding: 10px 20px;">🚀 استخدم التطبيق</a>
+                <a href="code-converter.html" class="btn" style="padding: 10px 20px;">🚀 استخدم التطبيق</a>
             </div>
         </div>
 
@@ -326,77 +273,54 @@
         </div>
     </section>
 
-    <!-- 👀 عداد الزوار الحقيقي -->
-    <section id="visitors" class="visitor-counter">
-        <h2>📊 إحصائيات الزوار الحية</h2>
-        <div class="counter-label">
-            <span class="live-dot"></span>
-            عدد الزوار الحاليين
-        </div>
-        <div class="counter-number" id="liveVisitorCount">1,247</div>
-        <div class="counter-label">
-            إجمالي الزوار: <span id="totalVisitors">6,892</span> زائر
-        </div>
-        <div style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
-            🕒 آخر تحديث: <span id="lastUpdate">الآن</span>
-        </div>
-    </section>
+    <!-- 👀 الإحصائيات المخفية (تعمل في الخلفية) -->
+    <div class="hidden-stats">
+        <div id="hiddenVisitors">0</div>
+        <div id="hiddenDownloads">0</div>
+        <div id="hiddenCountries">0</div>
+        <div id="hiddenActive">0</div>
+    </div>
 
     <script>
-        // 🔥 زيادة الإحصائيات تلقائياً (محاكاة النمو)
-        function animateCounter(element, target) {
-            let current = 0;
-            const increment = target / 100;
-            const timer = setInterval(() => {
-                current += increment;
-                if (current >= target) {
-                    current = target;
-                    clearInterval(timer);
-                }
-                element.textContent = Math.floor(current).toLocaleString();
-            }, 20);
+        // 🔥 نظام التتبع المخفي
+        function updateHiddenStats() {
+            // زيادة الأرقام تلقائياً في الخلفية
+            let visitors = localStorage.getItem('hiddenVisitors');
+            let downloads = localStorage.getItem('hiddenDownloads');
+            let countries = localStorage.getItem('hiddenCountries');
+            let active = localStorage.getItem('hiddenActive');
+            
+            if (!visitors) visitors = 6892;
+            if (!downloads) downloads = 12456;
+            if (!countries) countries = 24;
+            if (!active) active = 47;
+            
+            // زيادة عشوائية
+            visitors = parseInt(visitors) + Math.floor(Math.random() * 3) + 1;
+            downloads = parseInt(downloads) + Math.floor(Math.random() * 5) + 1;
+            active = Math.floor(visitors * 0.15); // 15% مستخدمين أحياء
+            
+            // حفظ في الخلفية
+            localStorage.setItem('hiddenVisitors', visitors);
+            localStorage.setItem('hiddenDownloads', downloads);
+            localStorage.setItem('hiddenCountries', countries);
+            localStorage.setItem('hiddenActive', active);
+            
+            // تحديث المؤشر
+            updateLiveIndicator(active);
         }
 
-        // 📈 تحديث الإحصائيات
-        function updateStats() {
-            animateCounter(document.getElementById('appDownloads'), 5892);
-            animateCounter(document.getElementById('toolsUsed'), 12456);
-        }
-
-        // 👀 نظام عداد الزوار الحقيقي
-        function updateVisitorCounter() {
-            // احصل على عدد الزوار الحالي من localStorage أو ابدأ برقم
-            let totalVisitors = localStorage.getItem('totalVisitors');
-            let liveVisitors = localStorage.getItem('liveVisitors');
+        // 📊 تحديث مؤشر النشاط
+        function updateLiveIndicator(activeUsers) {
+            const statusText = document.getElementById('statusText');
+            const messages = [
+                `نشط الآن`,
+                `مستخدمين ${activeUsers}`,
+                `متصلون الآن`
+            ];
             
-            if (!totalVisitors) {
-                totalVisitors = 6892;
-            } else {
-                totalVisitors = parseInt(totalVisitors);
-            }
-            
-            if (!liveVisitors) {
-                liveVisitors = 1247;
-            } else {
-                liveVisitors = parseInt(liveVisitors);
-            }
-            
-            // زيادة عشوائية في عدد الزوار (محاكاة النمو)
-            const randomIncrease = Math.floor(Math.random() * 5) + 1;
-            totalVisitors += randomIncrease;
-            liveVisitors = Math.floor(totalVisitors * 0.18); // 18% زوار أحياء
-            
-            // حفظ في localStorage
-            localStorage.setItem('totalVisitors', totalVisitors);
-            localStorage.setItem('liveVisitors', liveVisitors);
-            
-            // تحديث العرض
-            document.getElementById('liveVisitorCount').textContent = liveVisitors.toLocaleString();
-            document.getElementById('totalVisitors').textContent = totalVisitors.toLocaleString();
-            document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString('ar-EG');
-            
-            // تحديث كل 30 ثانية
-            setTimeout(updateVisitorCounter, 30000);
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            statusText.textContent = randomMessage;
         }
 
         // 🎯 التهيئة
@@ -407,16 +331,16 @@
                 card.style.animationDelay = `${index * 0.2}s`;
             });
 
-            // تشغيل الإحصائيات
-            updateStats();
-            updateVisitorCounter();
+            // تشغيل التتبع المخفي
+            updateHiddenStats();
+            
+            // تحديث الإحصائيات كل 30 ثانية
+            setInterval(updateHiddenStats, 30000);
 
-            // 🔥 تأثيرات تفاعلية
+            // تغيير نص المؤشر كل 10 ثواني
             setInterval(() => {
-                const randomStat = document.querySelectorAll('.stat-number')[Math.floor(Math.random() * 4)];
-                const current = parseInt(randomStat.textContent.replace(/,/g, ''));
-                randomStat.textContent = (current + 1).toLocaleString();
-            }, 5000);
+                updateHiddenStats();
+            }, 10000);
         });
 
         // 📱 مشاركة الموقع
