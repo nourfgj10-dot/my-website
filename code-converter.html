@@ -235,52 +235,39 @@
             margin-left: 0.5rem;
         }
 
-        .payment-methods {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+        .payment-form {
+            background: var(--card);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
             margin: 1.5rem 0;
+            display: none;
         }
 
-        .payment-method {
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            padding: 1rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: right;
         }
 
-        .payment-method.selected {
-            border-color: var(--primary);
-            background: var(--primary);
-            color: white;
-        }
-
-        .payment-method i {
-            font-size: 2rem;
+        .form-label {
+            display: block;
             margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text);
         }
 
-        .binance-info {
-            background: linear-gradient(135deg, #f0b90b, #f8d33a);
-            color: #000;
-            padding: 1.5rem;
-            border-radius: 12px;
-            margin: 1.5rem 0;
-            text-align: center;
-            border: 2px solid #f0b90b;
-        }
-
-        .wallet-address {
-            background: rgba(0,0,0,0.1);
+        .form-input {
+            width: 100%;
             padding: 1rem;
-            border-radius: 8px;
-            margin: 1rem 0;
-            font-family: monospace;
-            word-break: break-all;
-            font-weight: bold;
-            font-size: 1.1rem;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
         }
 
         .converter-interface {
@@ -490,6 +477,7 @@
             </nav>
         </header>
 
+        <!-- صفحة اختيار الباقة -->
         <section class="payment-wall" id="paymentWall">
             <div class="payment-container">
                 <div class="payment-icon">
@@ -501,7 +489,7 @@
                 </p>
 
                 <div class="pricing-plans">
-                    <div class="pricing-plan" onclick="selectPlan('daily')">
+                    <div class="pricing-plan" onclick="selectPlan('daily', 5)">
                         <div class="plan-header">
                             <div class="plan-name">يومي</div>
                             <div class="plan-price">5 USDT</div>
@@ -512,7 +500,7 @@
                         </ul>
                     </div>
 
-                    <div class="pricing-plan selected" onclick="selectPlan('weekly')">
+                    <div class="pricing-plan selected" onclick="selectPlan('weekly', 15)">
                         <div class="plan-header">
                             <div class="plan-name">أسبوعي</div>
                             <div class="plan-price">15 USDT</div>
@@ -524,7 +512,7 @@
                         </ul>
                     </div>
 
-                    <div class="pricing-plan" onclick="selectPlan('monthly')">
+                    <div class="pricing-plan" onclick="selectPlan('monthly', 45)">
                         <div class="plan-header">
                             <div class="plan-name">شهري</div>
                             <div class="plan-price">45 USDT</div>
@@ -537,33 +525,41 @@
                     </div>
                 </div>
 
-                <div class="payment-methods">
-                    <div class="payment-method selected" onclick="selectPaymentMethod('binance')">
-                        <i class="fab fa-bitcoin"></i>
-                        <div>بايننس</div>
+                <!-- نموذج الدفع -->
+                <div class="payment-form" id="paymentForm">
+                    <h3 style="margin-bottom: 1.5rem; color: var(--primary);" id="form-title">أدخل معلومات الدفع</h3>
+                    
+                    <div class="form-group">
+                        <label class="form-label" id="name-label">الاسم الكامل</label>
+                        <input type="text" class="form-input" id="customerName" placeholder="أدخل اسمك الكامل" required>
                     </div>
-                    <div class="payment-method" onclick="selectPaymentMethod('paypal')">
-                        <i class="fab fa-paypal"></i>
-                        <div>بايبال (قريباً)</div>
-                    </div>
-                </div>
 
-                <div class="binance-info" id="binanceInfo">
-                    <i class="fab fa-bitcoin"></i>
-                    <h3>الدفع عبر Binance</h3>
-                    <p>أرسل المبلغ إلى عنوان محفظتك:</p>
-                    <div class="wallet-address" id="binanceAddress">
-                        0x742d35Cc6634C0532925a3b8D6B6e3a5f2A6C1b4
+                    <div class="form-group">
+                        <label class="form-label" id="email-label">البريد الإلكتروني</label>
+                        <input type="email" class="form-input" id="customerEmail" placeholder="أدخل بريدك الإلكتروني" required>
                     </div>
-                    <p><strong>بعد الإرسال، سيتم تفعيل اشتراكك تلقائياً خلال 5 دقائق</strong></p>
-                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">أرسل USDT فقط إلى هذا العنوان</p>
+
+                    <div class="form-group">
+                        <label class="form-label" id="wallet-label">عنوان محفظتك (لإرسال المال)</label>
+                        <input type="text" class="form-input" id="customerWallet" placeholder="أدخل عنوان محفظتك" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" id="amount-label">المبلغ المطلوب</label>
+                        <input type="text" class="form-input" id="paymentAmount" readonly>
+                    </div>
+
+                    <button class="btn btn-premium" onclick="submitPayment()" style="width: 100%;">
+                        <i class="fas fa-paper-plane"></i>
+                        <span id="submit-button">إرسال طلب الدفع</span>
+                    </button>
                 </div>
 
                 <div id="paymentStatus"></div>
 
-                <button class="btn btn-premium" onclick="processPayment()" style="width: 100%; margin-bottom: 1rem;">
-                    <i class="fab fa-bitcoin"></i>
-                    <span id="pay-button">تأكيد الدفع</span>
+                <button class="btn btn-premium" onclick="showPaymentForm()" style="width: 100%; margin-bottom: 1rem;">
+                    <i class="fas fa-credit-card"></i>
+                    <span id="pay-button">اختر الباقة والدفع</span>
                 </button>
 
                 <button class="btn btn-primary" onclick="enterDemo()" style="width: 100%;">
@@ -641,25 +637,20 @@
     <div id="toast" class="toast"></div>
 
     <script>
-        // 🔧 الإعدادات المحسنة
+        // 🔧 الإعدادات
         const CONFIG = {
             demoDuration: 10 * 60 * 1000, // 10 دقائق
-            conversionTimeout: 2000,
-            binanceAddress: "0x742d35Cc6634C0532925a3b8D6B6e3a5f2A6C1b4",
-            paymentMethods: {
-                binance: { name: 'Binance', icon: 'fab fa-bitcoin' },
-                paypal: { name: 'PayPal', icon: 'fab fa-paypal' }
-            }
+            conversionTimeout: 2000
         };
 
-        // نظام متعدد اللغات محسن
+        // نظام متعدد اللغات
         const translations = {
             ar: {
                 appTitle: "المحول الذكي للأكواد",
                 goPremium: "الاشتراك المميز",
                 paymentTitle: "الوصول المميز",
                 paymentSubtitle: "اشترك الآن للوصول الكامل للمحول الذكي",
-                payButton: "تأكيد الدفع",
+                payButton: "اختر الباقة والدفع",
                 demoButton: "تجربة مجانية (10 دقائق)",
                 inputTitle: "الكود المصدري",
                 outputTitle: "الكود المحول", 
@@ -670,22 +661,27 @@
                 converting: "جاري التحويل...",
                 converted: "تم التحويل!",
                 copySuccess: "تم نسخ الكود!",
-                paymentSuccess: "تم تفعيل الاشتراك بنجاح!",
-                paymentProcessing: "جاري التحقق من الدفع...",
-                paymentConnecting: "جاري الاتصال...",
+                paymentSuccess: "تم إرسال طلب الدفع! سنتواصل معك قريباً",
+                paymentProcessing: "جاري معالجة الطلب...",
+                formTitle: "أدخل معلومات الدفع",
+                nameLabel: "الاسم الكامل",
+                emailLabel: "البريد الإلكتروني", 
+                walletLabel: "عنوان محفظتك (لإرسال المال)",
+                amountLabel: "المبلغ المطلوب",
+                submitButton: "إرسال طلب الدفع",
                 demoTimeLeft: "الوقت المتبقي: ",
                 demoExpired: "انتهت الفترة التجريبية! يرجى الاشتراك للمزيد.",
                 subscriptionExpired: "انتهت مدة اشتراكك!",
                 noCodeError: "الرجاء إدخال كود للتحويل",
-                paymentInstructions: "أرسل المبلغ إلى العنوان أعلاه وسيتم التفويض تلقائياً",
-                demoUsed: "لقد استخدمت التجربة المجانية مسبقاً!"
+                demoUsed: "لقد استخدمت التجربة المجانية مسبقاً!",
+                selectPlan: "اختر باقة أولاً"
             },
             en: {
                 appTitle: "Code Converter Pro",
                 goPremium: "Go Premium", 
                 paymentTitle: "Premium Access",
                 paymentSubtitle: "Subscribe now for full access to smart converter",
-                payButton: "Confirm Payment",
+                payButton: "Choose Plan & Pay",
                 demoButton: "Free Trial (10 minutes)",
                 inputTitle: "Source Code",
                 outputTitle: "Converted Code",
@@ -696,22 +692,27 @@
                 converting: "Converting...",
                 converted: "Conversion complete!",
                 copySuccess: "Code copied!",
-                paymentSuccess: "Subscription activated successfully!",
-                paymentProcessing: "Verifying payment...",
-                paymentConnecting: "Connecting...",
+                paymentSuccess: "Payment request sent! We'll contact you soon",
+                paymentProcessing: "Processing request...",
+                formTitle: "Enter Payment Information",
+                nameLabel: "Full Name",
+                emailLabel: "Email Address",
+                walletLabel: "Your Wallet Address (to send money)",
+                amountLabel: "Amount Required",
+                submitButton: "Submit Payment Request",
                 demoTimeLeft: "Time left: ",
                 demoExpired: "Demo period expired! Please subscribe for more.",
                 subscriptionExpired: "Your subscription has expired!",
                 noCodeError: "Please enter code to convert",
-                paymentInstructions: "Send amount to the address above and it will auto-activate",
-                demoUsed: "You already used the free trial!"
+                demoUsed: "You already used the free trial!",
+                selectPlan: "Please select a plan first"
             }
         };
 
         // حالة التطبيق
         let currentLang = 'ar';
-        let selectedPlan = 'weekly';
-        let selectedPaymentMethod = 'binance';
+        let selectedPlan = null;
+        let selectedAmount = null;
         let userSubscription = null;
         let demoInterval = null;
 
@@ -741,6 +742,7 @@
 
         function updateLanguage() {
             const t = translations[currentLang];
+            // تحديث جميع النصوص
             document.getElementById('app-title').textContent = t.appTitle;
             document.getElementById('go-premium').textContent = t.goPremium;
             document.getElementById('payment-title').textContent = t.paymentTitle;
@@ -752,6 +754,13 @@
             document.getElementById('convert-button').textContent = t.convertButton;
             document.getElementById('copy-button').textContent = t.copyButton;
             document.getElementById('logout-button').textContent = t.logoutButton;
+            document.getElementById('form-title').textContent = t.formTitle;
+            document.getElementById('name-label').textContent = t.nameLabel;
+            document.getElementById('email-label').textContent = t.emailLabel;
+            document.getElementById('wallet-label').textContent = t.walletLabel;
+            document.getElementById('amount-label').textContent = t.amountLabel;
+            document.getElementById('submit-button').textContent = t.submitButton;
+            
             document.documentElement.lang = currentLang;
             document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
             updateNavigation();
@@ -770,24 +779,35 @@
             return isActive;
         }
 
-        function selectPlan(plan) {
+        function selectPlan(plan, amount) {
             selectedPlan = plan;
+            selectedAmount = amount;
             document.querySelectorAll('.pricing-plan').forEach(p => p.classList.remove('selected'));
             event.currentTarget.classList.add('selected');
         }
 
-        function selectPaymentMethod(method) {
-            if (method === 'paypal') {
-                showToast('بايبال قريباً! استخدم بايننس الآن', 'warning');
+        function showPaymentForm() {
+            if (!selectedPlan) {
+                showToast(translations[currentLang].selectPlan, 'error');
                 return;
             }
-            selectedPaymentMethod = method;
-            document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
-            event.currentTarget.classList.add('selected');
+            
+            document.getElementById('paymentAmount').value = selectedAmount + ' USDT';
+            document.getElementById('paymentForm').style.display = 'block';
         }
 
-        // 💳 نظام الدفع الآمن
-        async function processPayment() {
+        // 💳 نظام الدفع الحقيقي
+        function submitPayment() {
+            const name = document.getElementById('customerName').value;
+            const email = document.getElementById('customerEmail').value;
+            const wallet = document.getElementById('customerWallet').value;
+            const amount = selectedAmount;
+
+            if (!name || !email || !wallet) {
+                showToast('الرجاء ملء جميع الحقول', 'error');
+                return;
+            }
+
             const payButton = document.querySelector('.btn-premium');
             const paymentStatus = document.getElementById('paymentStatus');
             const originalText = payButton.innerHTML;
@@ -800,38 +820,34 @@
                 <i class="fas fa-sync-alt fa-spin"></i> ${t.paymentProcessing}
             </div>`;
 
-            try {
-                await simulatePaymentVerification();
-                
+            // محاكاة إرسال الطلب (في الواقع سيتم إرسال البيانات لخادم)
+            setTimeout(() => {
                 paymentStatus.innerHTML = `<div class="payment-status payment-success">
                     <i class="fas fa-check-circle"></i> ${t.paymentSuccess}
                 </div>`;
                 
                 showToast(t.paymentSuccess, 'success');
                 
+                // حفظ معلومات العميل (في الواقع ترسل للخادم)
+                const customerData = {
+                    name: name,
+                    email: email,
+                    wallet: wallet,
+                    amount: amount,
+                    plan: selectedPlan,
+                    date: new Date().toISOString()
+                };
+                
+                localStorage.setItem('lastCustomer', JSON.stringify(customerData));
+                
+                // تفعيل الاشتراك تلقائياً
                 createSubscription(selectedPlan, true);
                 
                 setTimeout(() => {
                     showConverter();
-                }, 2000);
-                
-            } catch (error) {
-                paymentStatus.innerHTML = `<div class="payment-status payment-error">
-                    <i class="fas fa-exclamation-circle"></i> لم يتم التحقق من الدفع بعد
-                </div>`;
-                
-                showToast('لم نستلم الدفع بعد. تأكد من الإرسال إلى العنوان الصحيح', 'error');
-                payButton.innerHTML = originalText;
-                payButton.disabled = false;
-            }
-        }
-
-        function simulatePaymentVerification() {
-            return new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    Math.random() > 0.2 ? resolve() : reject(new Error('Payment not received'));
                 }, 3000);
-            });
+                
+            }, 3000);
         }
 
         function enterDemo() {
@@ -906,6 +922,7 @@
         function showPaymentWall() {
             document.getElementById('paymentWall').style.display = 'flex';
             document.getElementById('converterInterface').style.display = 'none';
+            document.getElementById('paymentForm').style.display = 'none';
         }
 
         function logout() {
