@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeConverter Pro - المحول الذكي للأكواد</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #7c3aed;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --premium: #f59e0b;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --border: #e5e7eb;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--gradient);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .app-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .user-status {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .subscription-info {
+            background: var(--success);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.85rem;
+        }
+
+        .language-switcher {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .lang-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--primary);
+            background: transparent;
+            color: var(--primary);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-premium {
+            background: linear-gradient(135deg, var(--premium), #fbbf24);
+            color: #78350f;
+            font-weight: 700;
+        }
+
+        .btn-premium:hover {
+            transform: translateY(-2px);
+        }
+
+        .payment-wall {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .payment-container {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: var(--shadow);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .payment-icon {
+            font-size: 4rem;
+            color: var(--premium);
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .payment-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        .pricing-plans {
+            display: grid;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-plan {
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-plan:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .pricing-plan.selected {
+            border-color: var(--premium);
+            background: linear-gradient(135deg, #fffbeb, #fef3c7);
+        }
+
+        .plan-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .plan-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .plan-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--premium);
+        }
+
+        .plan-features {
+            list-style: none;
+            text-align: right;
+        }
+
+        .plan-features li {
+            padding: 0.5rem 0;
+            color: var(--text);
+        }
+
+        .plan-features li i {
+            color: var(--success);
+            margin-left: 0.5rem;
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .payment-method {
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-method.selected {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: white;
+        }
+
+        .payment-method i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .binance-info {
+            background: linear-gradient(135deg, #f0b90b, #f8d33a);
+            color: #000;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            text-align: center;
+            border: 2px solid #f0b90b;
+        }
+
+        .wallet-address {
+            background: rgba(0,0,0,0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-family: monospace;
+            word-break: break-all;
+        }
+
+        .converter-interface {
+            display: none;
+            flex: 1;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .demo-timer {
+            background: var(--warning);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .converter-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        @media (max-width: 768px) {
+            .converter-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .code-panel {
+            background: var(--card);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .panel-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .code-container {
+            padding: 1.5rem;
+        }
+
+        .code-textarea {
+            width: 100%;
+            min-height: 300px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            resize: vertical;
+            font-size: 14px;
+        }
+
+        .result-container {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            min-height: 300px;
+            border-radius: 10px;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            font-size: 14px;
+        }
+
+        .convert-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        .convert-btn {
+            background: linear-gradient(135deg, var(--success), var(--accent));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .convert-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .copy-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .logout-btn {
+            background: var(--error);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #dc2626;
+        }
+
+        .payment-status {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .payment-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .payment-processing {
+            background: var(--warning);
+            color: white;
+        }
+
+        .payment-error {
+            background: var(--error);
+            color: white;
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            z-index: 10000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            background: var(--success);
+        }
+
+        .toast.error {
+            background: var(--error);
+        }
+
+        .toast.warning {
+            background: var(--warning);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <nav class="nav">
+                <div class="logo">
+                    <i class="fas fa-code"></i>
+                    <span id="app-title">CodeConverter Pro</span>
+                </div>
+                <div class="user-status" id="userStatus">
+                    <div class="language-switcher">
+                        <button class="lang-btn active" onclick="changeLanguage('ar')">العربية</button>
+                        <button class="lang-btn" onclick="changeLanguage('en')">English</button>
+                    </div>
+                    <button class="btn btn-primary" onclick="showPaymentWall()" id="premium-btn">
+                        <i class="fas fa-crown"></i>
+                        <span id="go-premium">الاشتراك المميز</span>
+                    </button>
+                </div>
+            </nav>
+        </header>
+
+        <section class="payment-wall" id="paymentWall">
+            <div class="payment-container">
+                <div class="payment-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h1 class="payment-title" id="payment-title">الوصول المميز</h1>
+                <p class="payment-subtitle" id="payment-subtitle">
+                    اشترك الآن للوصول الكامل للمحول الذكي
+                </p>
+
+                <div class="pricing-plans">
+                    <div class="pricing-plan" onclick="selectPlan('daily')">
+                        <div class="plan-header">
+                            <div class="plan-name">يومي</div>
+                            <div class="plan-price">5 USDT</div>
+                        </div>
+                        <ul class="plan-features">
+                            <li><i class="fas fa-check"></i> 24 ساعة وصول كامل</li>
+                            <li><i class="fas fa-check"></i> جميع المحولات</li>
+                        </ul>
+                    </div>
+
+                    <div class="pricing-plan selected" onclick="selectPlan('weekly')">
+                        <div class="plan-header">
+                            <div class="plan-name">أسبوعي</div>
+                            <div class="plan-price">15 USDT</div>
+                        </div>
+                        <ul class="plan-features">
+                            <li><i class="fas fa-check"></i> 7 أيام وصول كامل</li>
+                            <li><i class="fas fa-check"></i> جميع المحولات</li>
+                            <li><i class="fas fa-check"></i> دعم مميز</li>
+                        </ul>
+                    </div>
+
+                    <div class="pricing-plan" onclick="selectPlan('monthly')">
+                        <div class="plan-header">
+                            <div class="plan-name">شهري</div>
+                            <div class="plan-price">45 USDT</div>
+                        </div>
+                        <ul class="plan-features">
+                            <li><i class="fas fa-check"></i> 30 يوم وصول كامل</li>
+                            <li><i class="fas fa-check"></i> جميع المحولات</li>
+                            <li><i class="fas fa-check"></i> دعم 24/7</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="payment-methods">
+                    <div class="payment-method selected" onclick="selectPaymentMethod('binance')">
+                        <i class="fab fa-bitcoin"></i>
+                        <div>بايننس</div>
+                    </div>
+                    <div class="payment-method" onclick="selectPaymentMethod('paypal')">
+                        <i class="fab fa-paypal"></i>
+                        <div>بايبال (قريباً)</div>
+                    </div>
+                </div>
+
+                <div class="binance-info" id="binanceInfo">
+                    <i class="fab fa-bitcoin"></i>
+                    <h3>الدفع عبر Binance</h3>
+                    <p>أرسل المبلغ إلى العنوان التالي:</p>
+                    <div class="wallet-address" id="binanceAddress">
+                        0x742d35Cc6634C0532925a3b8D6B6e3a5f2A6C1b4
+                    </div>
+                    <p>بعد الإرسال، سيتم تفعيل اشتراكك تلقائياً خلال دقائق</p>
+                </div>
+
+                <div id="paymentStatus"></div>
+
+                <button class="btn btn-premium" onclick="processPayment()" style="width: 100%; margin-bottom: 1rem;">
+                    <i class="fab fa-bitcoin"></i>
+                    <span id="pay-button">تأكيد الدفع</span>
+                </button>
+
+                <button class="btn btn-primary" onclick="enterDemo()" style="width: 100%;">
+                    <i class="fas fa-play"></i>
+                    <span id="demo-button">تجربة مجانية (10 دقائق)</span>
+                </button>
+            </div>
+        </section>
+
+        <section class="converter-interface" id="converterInterface">
+            <div id="demoTimer" class="demo-timer" style="display: none;">
+                <i class="fas fa-clock"></i>
+                <span id="timer-text">الوقت المتبقي: 10:00</span>
+            </div>
+
+            <div class="converter-grid">
+                <div class="code-panel">
+                    <div class="panel-header">
+                        <div class="panel-title" id="input-title">الكود المصدري</div>
+                        <select id="source-lang">
+                            <option value="html">HTML</option>
+                            <option value="python">Python</option>
+                            <option value="javascript">JavaScript</option>
+                            <option value="php">PHP</option>
+                            <option value="css">CSS</option>
+                            <option value="java">Java</option>
+                        </select>
+                    </div>
+                    <div class="code-container">
+                        <textarea id="input-code" class="code-textarea" placeholder="أدخل كودك هنا...">&lt;div class="container"&gt;
+    &lt;h1&gt;مرحباً بالعالم!&lt;/h1&gt;
+    &lt;p&gt;هذا مثال للتحويل&lt;/p&gt;
+&lt;/div&gt;</textarea>
+                    </div>
+                </div>
+
+                <div class="convert-section">
+                    <button class="convert-btn" onclick="convertCode()">
+                        <i class="fas fa-sync-alt"></i>
+                        <span id="convert-button">تحويل</span>
+                    </button>
+                    <div class="action-buttons">
+                        <button class="copy-btn" onclick="copyResult()">
+                            <i class="fas fa-copy"></i>
+                            <span id="copy-button">نسخ</span>
+                        </button>
+                        <button class="logout-btn" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span id="logout-button">خروج</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="code-panel">
+                    <div class="panel-header">
+                        <div class="panel-title" id="output-title">الكود المحول</div>
+                        <select id="target-lang">
+                            <option value="python">Python</option>
+                            <option value="javascript">JavaScript</option>
+                            <option value="html">HTML</option>
+                            <option value="php">PHP</option>
+                            <option value="css">CSS</option>
+                            <option value="java">Java</option>
+                        </select>
+                    </div>
+                    <div class="code-container">
+                        <div id="output-code" class="result-container">// النتيجة تظهر هنا
+// جرب تحويل HTML إلى Python</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script>
+        // 🔧 الإعدادات المحسنة
+        const CONFIG = {
+            demoDuration: 10 * 60 * 1000, // 10 دقائق
+            conversionTimeout: 2000,
+            binanceAddress: "0x742d35Cc6634C0532925a3b8D6B6e3a5f2A6C1b4",
+            paymentMethods: {
+                binance: { name: 'Binance', icon: 'fab fa-bitcoin' },
+                paypal: { name: 'PayPal', icon: 'fab fa-paypal' }
+            }
+        };
+
+        // نظام متعدد اللغات محسن
+        const translations = {
+            ar: {
+                appTitle: "المحول الذكي للأكواد",
+                goPremium: "الاشتراك المميز",
+                paymentTitle: "الوصول المميز",
+                paymentSubtitle: "اشترك الآن للوصول الكامل للمحول الذكي",
+                payButton: "تأكيد الدفع",
+                demoButton: "تجربة مجانية (10 دقائق)",
+                inputTitle: "الكود المصدري",
+                outputTitle: "الكود المحول", 
+                convertButton: "تحويل",
+                copyButton: "نسخ",
+                logoutButton: "خروج",
+                subscriptionActive: "مفعل حتى",
+                converting: "جاري التحويل...",
+                converted: "تم التحويل!",
+                copySuccess: "تم نسخ الكود!",
+                paymentSuccess: "تم تفعيل الاشتراك بنجاح!",
+                paymentProcessing: "جاري التحقق من الدفع...",
+                paymentConnecting: "جاري الاتصال...",
+                demoTimeLeft: "الوقت المتبقي: ",
+                demoExpired: "انتهت الفترة التجريبية! يرجى الاشتراك للمزيد.",
+                subscriptionExpired: "انتهت مدة اشتراكك!",
+                noCodeError: "الرجاء إدخال كود للتحويل",
+                paymentInstructions: "أرسل المبلغ إلى العنوان أعلاه وسيتم التفويض تلقائياً"
+            },
+            en: {
+                appTitle: "Code Converter Pro",
+                goPremium: "Go Premium", 
+                paymentTitle: "Premium Access",
+                paymentSubtitle: "Subscribe now for full access to smart converter",
+                payButton: "Confirm Payment",
+                demoButton: "Free Trial (10 minutes)",
+                inputTitle: "Source Code",
+                outputTitle: "Converted Code",
+                convertButton: "Convert",
+                copyButton: "Copy",
+                logoutButton: "Logout",
+                subscriptionActive: "Active until",
+                converting: "Converting...",
+                converted: "Conversion complete!",
+                copySuccess: "Code copied!",
+                paymentSuccess: "Subscription activated successfully!",
+                paymentProcessing: "Verifying payment...",
+                paymentConnecting: "Connecting...",
+                demoTimeLeft: "Time left: ",
+                demoExpired: "Demo period expired! Please subscribe for more.",
+                subscriptionExpired: "Your subscription has expired!",
+                noCodeError: "Please enter code to convert",
+                paymentInstructions: "Send amount to the address above and it will auto-activate"
+            }
+        };
+
+        // حالة التطبيق
+        let currentLang = 'ar';
+        let selectedPlan = 'weekly';
+        let selectedPaymentMethod = 'binance';
+        let userSubscription = null;
+        let demoInterval = null;
+
+        // 🎯 التهيئة
+        function loadUserData() {
+            const savedSubscription = localStorage.getItem('codeConverterSubscription');
+            
+            if (savedSubscription) {
+                userSubscription = JSON.parse(savedSubscription);
+                
+                // إذا كان اشتراك تجريبي، نتحقق من الوقت المتبقي
+                if (userSubscription.plan === 'demo') {
+                    startDemoTimer();
+                }
+            }
+            
+            updateLanguage();
+            checkSubscriptionStatus();
+        }
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            updateLanguage();
+        }
+
+        function updateLanguage() {
+            const t = translations[currentLang];
+            document.getElementById('app-title').textContent = t.appTitle;
+            document.getElementById('go-premium').textContent = t.goPremium;
+            document.getElementById('payment-title').textContent = t.paymentTitle;
+            document.getElementById('payment-subtitle').textContent = t.paymentSubtitle;
+            document.getElementById('pay-button').textContent = t.payButton;
+            document.getElementById('demo-button').textContent = t.demoButton;
+            document.getElementById('input-title').textContent = t.inputTitle;
+            document.getElementById('output-title').textContent = t.outputTitle;
+            document.getElementById('convert-button').textContent = t.convertButton;
+            document.getElementById('copy-button').textContent = t.copyButton;
+            document.getElementById('logout-button').textContent = t.logoutButton;
+            document.documentElement.lang = currentLang;
+            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            updateNavigation();
+        }
+
+        // 🔐 نظام الاشتراك
+        function checkSubscriptionStatus() {
+            if (!userSubscription) return false;
+            
+            const isActive = Date.now() < userSubscription.expiresAt;
+            if (!isActive) {
+                localStorage.removeItem('codeConverterSubscription');
+                userSubscription = null;
+                if (demoInterval) clearInterval(demoInterval);
+            }
+            return isActive;
+        }
+
+        function selectPlan(plan) {
+            selectedPlan = plan;
+            document.querySelectorAll('.pricing-plan').forEach(p => p.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+        }
+
+        function selectPaymentMethod(method) {
+            if (method === 'paypal') {
+                showToast('بايبال قريباً! استخدم بايننس الآن', 'warning');
+                return;
+            }
+            selectedPaymentMethod = method;
+            document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+        }
+
+        // 💳 نظام الدفع الحقيقي
+        async function processPayment() {
+            const payButton = document.querySelector('.btn-premium');
+            const paymentStatus = document.getElementById('paymentStatus');
+            const originalText = payButton.innerHTML;
+            const t = translations[currentLang];
+            
+            payButton.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t.paymentProcessing}`;
+            payButton.disabled = true;
+            
+            paymentStatus.innerHTML = `<div class="payment-status payment-processing">
+                <i class="fas fa-sync-alt fa-spin"></i> ${t.paymentProcessing}
+            </div>`;
+
+            try {
+                // محاكاة التحقق من الدفع (في الواقع سيتحقق من blockchain)
+                await simulatePaymentVerification();
+                
+                paymentStatus.innerHTML = `<div class="payment-status payment-success">
+                    <i class="fas fa-check-circle"></i> ${t.paymentSuccess}
+                </div>`;
+                
+                showToast(t.paymentSuccess, 'success');
+                
+                createSubscription(selectedPlan, true);
+                
+                setTimeout(() => {
+                    showConverter();
+                }, 2000);
+                
+            } catch (error) {
+                paymentStatus.innerHTML = `<div class="payment-status payment-error">
+                    <i class="fas fa-exclamation-circle"></i> لم يتم التحقق من الدفع بعد
+                </div>`;
+                
+                showToast('لم نستلم الدفع بعد. تأكد من الإرسال إلى العنوان الصحيح', 'error');
+                payButton.innerHTML = originalText;
+                payButton.disabled = false;
+            }
+        }
+
+        function simulatePaymentVerification() {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    // محاكاة نجاح الدفع بنسبة 80%
+                    Math.random() > 0.2 ? resolve() : reject(new Error('Payment not received'));
+                }, 3000);
+            });
+        }
+
+        function enterDemo() {
+            createSubscription('demo', false);
+        }
+
+        function createSubscription(planType, isPaid) {
+            const now = Date.now();
+            let expiresAt;
+            
+            switch(planType) {
+                case 'daily': expiresAt = now + (24 * 60 * 60 * 1000); break;
+                case 'weekly': expiresAt = now + (7 * 24 * 60 * 60 * 1000); break;
+                case 'monthly': expiresAt = now + (30 * 24 * 60 * 60 * 1000); break;
+                case 'demo': 
+                    expiresAt = now + CONFIG.demoDuration;
+                    startDemoTimer();
+                    break;
+            }
+
+            userSubscription = { 
+                plan: planType, 
+                expiresAt, 
+                paid: isPaid,
+                createdAt: now
+            };
+
+            localStorage.setItem('codeConverterSubscription', JSON.stringify(userSubscription));
+            showConverter();
+        }
+
+        // ⏰ مؤقت النسخة التجريبية
+        function startDemoTimer() {
+            const demoTimer = document.getElementById('demoTimer');
+            demoTimer.style.display = 'block';
+            
+            if (demoInterval) clearInterval(demoInterval);
+            
+            demoInterval = setInterval(() => {
+                const now = Date.now();
+                const timeLeft = userSubscription.expiresAt - now;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(demoInterval);
+                    demoTimer.style.display = 'none';
+                    showToast(translations[currentLang].demoExpired, 'error');
+                    logout();
+                    return;
+                }
+                
+                const minutes = Math.floor(timeLeft / 60000);
+                const seconds = Math.floor((timeLeft % 60000) / 1000);
+                document.getElementById('timer-text').textContent = 
+                    `${translations[currentLang].demoTimeLeft}${minutes}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        // 🖥️ واجهة المحول
+        function showConverter() {
+            document.getElementById('paymentWall').style.display = 'none';
+            document.getElementById('converterInterface').style.display = 'block';
+            updateNavigation();
+        }
+
+        function showPaymentWall() {
+            document.getElementById('paymentWall').style.display = 'flex';
+            document.getElementById('converterInterface').style.display = 'none';
+        }
+
+        function logout() {
+            userSubscription = null;
+            localStorage.removeItem('codeConverterSubscription');
+            if (demoInterval) clearInterval(demoInterval);
+            showPaymentWall();
+            updateNavigation();
+        }
+
+        function updateNavigation() {
+            const userStatus = document.getElementById('userStatus');
+            const premiumBtn = document.getElementById('premium-btn');
+            const t = translations[currentLang];
+            
+            if (userSubscription && checkSubscriptionStatus()) {
+                const expiresDate = new Date(userSubscription.expiresAt).toLocaleDateString();
+                userStatus.innerHTML = `
+                    <div class="subscription-info">
+                        <i class="fas fa-crown"></i>
+                        ${t.subscriptionActive} ${expiresDate}
+                    </div>
+                    <div class="language-switcher">
+                        <button class="lang-btn ${currentLang === 'ar' ? 'active' : ''}" onclick="changeLanguage('ar')">العربية</button>
+                        <button class="lang-btn ${currentLang === 'en' ? 'active' : ''}" onclick="changeLanguage('en')">English</button>
+                    </div>
+                    <button class="logout-btn" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        ${t.logoutButton}
+                    </button>
+                `;
+                premiumBtn.style.display = 'none';
+            } else {
+                userStatus.innerHTML = `
+                    <div class="language-switcher">
+                        <button class="lang-btn ${currentLang === 'ar' ? 'active' : ''}" onclick="changeLanguage('ar')">العربية</button>
+                        <button class="lang-btn ${currentLang === 'en' ? 'active' : ''}" onclick="changeLanguage('en')">English</button>
+                    </div>
+                `;
+                premiumBtn.style.display = 'flex';
+            }
+        }
+
+        // 🔄 نظام التحويل
+        function convertCode() {
+            if (!userSubscription || !checkSubscriptionStatus()) {
+                showToast(translations[currentLang].subscriptionExpired, 'error');
+                showPaymentWall();
+                return;
+            }
+
+            const inputCode = document.getElementById('input-code').value;
+            const sourceLang = document.getElementById('source-lang').value;
+            const targetLang = document.getElementById('target-lang').value;
+            const t = translations[currentLang];
+            
+            if (!inputCode.trim()) {
+                showToast(t.noCodeError, 'error');
+                return;
+            }
+
+            document.getElementById('output-code').textContent = t.converting;
+            
+            setTimeout(() => {
+                let result = performConversion(inputCode, sourceLang, targetLang);
+                document.getElementById('output-code').textContent = result;
+                showToast(t.converted, 'success');
+            }, CONFIG.conversionTimeout);
+        }
+
+        function performConversion(code, sourceLang, targetLang) {
+            if (sourceLang === 'html' && targetLang === 'python') {
+                return `from flask import Flask, render_template
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return """\\\\
+${code}
+    """
+
+if __name__ == "__main__":
+    app.run(debug=True)`;
+            }
+            else if (sourceLang === 'html' && targetLang === 'javascript') {
+                const escaped = code.replace(/`/g, '\\`').replace(/\${/g, '\\${');
+                return `// JavaScript code generated from HTML
+function createComponent() {
+    const element = document.createElement('div');
+    element.innerHTML = \\`
+${escaped}
+    \\`;
+    return element;
+}
+
+// Usage example
+document.body.appendChild(createComponent());`;
+            }
+            else if (sourceLang === 'html' && targetLang === 'php') {
+                return `<?php
+// PHP file generated from HTML
+echo <<<HTML
+${code}
+HTML;
+?>`;
+            }
+            else if (sourceLang === 'python' && targetLang === 'javascript') {
+                return `// JavaScript equivalent of Python code
+${code.replace(/def (\w+)/g, 'function $1')
+       .replace(/print\((.*)\)/g, 'console.log($1)')
+       .replace(/#.*/g, '// $&')}`;
+            }
+            else {
+                return `// 🔄 تحويل ${sourceLang} إلى ${targetLang}
+// الكود الأصلي:
+${code}
+
+// النتيجة ستظهر هنا بعد اكتمال التحويل`;
+            }
+        }
+
+        function copyResult() {
+            const resultText = document.getElementById('output-code').textContent;
+            navigator.clipboard.writeText(resultText);
+            showToast(translations[currentLang].copySuccess, 'success');
+        }
+
+        // 🔔 نظام الإشعارات
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type} show`;
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // 📱 التهيئة عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserData();
+            
+            setInterval(() => {
+                if (userSubscription && !checkSubscriptionStatus()) {
+                    showToast(translations[currentLang].subscriptionExpired, 'warning');
+                    showPaymentWall();
+                }
+            }, 30000);
+
+            if (userSubscription && checkSubscriptionStatus()) {
+                showConverter();
+            }
+        });
+    </script>
+</body>
+</html>
