@@ -6,8 +6,8 @@
     <title>صهيب لتطوير التطبيقات</title>
     
     <!-- 🔍 Meta Tags for SEO -->
-    <meta name="description" content="منصة صهيب للتطبيقات - NetAnalyzer Pro, Matrix Dev Tools, Code Converter Pro، أدوات مطوري الويب المحترفين">
-    <meta name="keywords" content="تطبيقات ويب, أدوات مطور, تحليل شبكة, محول أكواد, برمجة, تطوير">
+    <meta name="description" content="منصة صهيب للتطبيقات - NetAnalyzer Pro, Matrix Dev Tools، أدوات مطوري الويب المحترفين">
+    <meta name="keywords" content="تطبيقات ويب, أدوات مطور, تحليل شبكة, برمجة, تطوير">
     <meta name="author" content="صهيب للتطبيقات">
     
     <style>
@@ -93,10 +93,6 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         }
 
-        .btn-premium {
-            background: linear-gradient(45deg, #f59e0b, #fbbf24);
-        }
-
         .apps-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -113,7 +109,6 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s;
             text-align: center;
-            position: relative;
         }
 
         .app-card:hover {
@@ -125,20 +120,8 @@
             margin-bottom: 1rem;
         }
 
-        .badge {
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-
         .hidden-stats {
-            display: none; /* إخفاء الإحصائيات */
+            display: none;
         }
 
         .live-indicator {
@@ -223,17 +206,6 @@
 
     <!-- 🎯 قسم التطبيقات -->
     <section id="apps" class="apps-grid">
-        <!-- التطبيق الجديد Code Converter Pro -->
-        <div class="app-card">
-            <div class="badge">🔥 جديد</div>
-            <div class="app-icon">🔤</div>
-            <h3>Code Converter Pro</h3>
-            <p>محول ذكي بين لغات البرمجة - دفع آمن عبر Binance</p>
-            <div style="margin-top: 1rem;">
-                <a href="code-converter.html" class="btn" style="padding: 10px 20px;">🚀 استخدم التطبيق</a>
-            </div>
-        </div>
-
         <!-- تطبيق Matrix -->
         <div class="app-card">
             <div class="app-icon">🧩</div>
@@ -284,7 +256,6 @@
     <script>
         // 🔥 نظام التتبع المخفي
         function updateHiddenStats() {
-            // زيادة الأرقام تلقائياً في الخلفية
             let visitors = localStorage.getItem('hiddenVisitors');
             let downloads = localStorage.getItem('hiddenDownloads');
             let countries = localStorage.getItem('hiddenCountries');
@@ -295,22 +266,18 @@
             if (!countries) countries = 24;
             if (!active) active = 47;
             
-            // زيادة عشوائية
             visitors = parseInt(visitors) + Math.floor(Math.random() * 3) + 1;
             downloads = parseInt(downloads) + Math.floor(Math.random() * 5) + 1;
-            active = Math.floor(visitors * 0.15); // 15% مستخدمين أحياء
+            active = Math.floor(visitors * 0.15);
             
-            // حفظ في الخلفية
             localStorage.setItem('hiddenVisitors', visitors);
             localStorage.setItem('hiddenDownloads', downloads);
             localStorage.setItem('hiddenCountries', countries);
             localStorage.setItem('hiddenActive', active);
             
-            // تحديث المؤشر
             updateLiveIndicator(active);
         }
 
-        // 📊 تحديث مؤشر النشاط
         function updateLiveIndicator(activeUsers) {
             const statusText = document.getElementById('statusText');
             const messages = [
@@ -323,27 +290,21 @@
             statusText.textContent = randomMessage;
         }
 
-        // 🎯 التهيئة
         document.addEventListener('DOMContentLoaded', function() {
-            // تحميل الصفحة
             const cards = document.querySelectorAll('.app-card');
             cards.forEach((card, index) => {
                 card.style.animationDelay = `${index * 0.2}s`;
             });
 
-            // تشغيل التتبع المخفي
             updateHiddenStats();
             
-            // تحديث الإحصائيات كل 30 ثانية
             setInterval(updateHiddenStats, 30000);
 
-            // تغيير نص المؤشر كل 10 ثواني
             setInterval(() => {
                 updateHiddenStats();
             }, 10000);
         });
 
-        // 📱 مشاركة الموقع
         function shareSite() {
             if (navigator.share) {
                 navigator.share({
