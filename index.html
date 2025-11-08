@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صهيب لتطوير التطبيقات</title>
+    <title>صهيب - منصة أدوات المطورين</title>
     
     <!-- 🔍 Meta Tags for SEO -->
-    <meta name="description" content="منصة صهيب للتطبيقات - NetAnalyzer Pro, Matrix Dev Tools، أدوات مطوري الويب المحترفين">
-    <meta name="keywords" content="تطبيقات ويب, أدوات مطور, تحليل شبكة, برمجة, تطوير">
+    <meta name="description" content="منصة صهيب لأدوات المطورين - تطبيقات ويب ذكية تعمل مباشرة في المتصفح">
+    <meta name="keywords" content="أدوات مطور, تطبيقات ويب, برمجة, تحليل نصوص, شبكات">
     <meta name="author" content="صهيب للتطبيقات">
     
     <style>
@@ -18,10 +18,11 @@
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            font-family: 'Tajawal', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: #333;
             line-height: 1.6;
+            min-height: 100vh;
         }
 
         .header {
@@ -32,7 +33,8 @@
             width: 100%;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 30px rgba(0, 0, 0, 0.1);
+            border-bottom: 3px solid #667eea;
         }
 
         .nav {
@@ -46,10 +48,15 @@
 
         .logo {
             font-size: 1.8rem;
-            font-weight: bold;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            font-weight: 800;
+            background: linear-gradient(45deg, #667eea, #764ba2);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
         }
 
         .hero {
@@ -58,88 +65,174 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            background: linear-gradient(135deg, rgba(30, 60, 114, 0.9), rgba(42, 82, 152, 0.9));
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9));
             color: white;
             padding: 0 2rem;
+            margin-top: 0;
         }
 
         .hero-content h1 {
             font-size: 3.5rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             animation: fadeInUp 1s ease;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
         }
 
         .hero-content p {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
+            font-size: 1.4rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.95;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .btn {
             display: inline-block;
-            padding: 15px 35px;
+            padding: 16px 40px;
             background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
             color: white;
             text-decoration: none;
             border-radius: 50px;
             font-weight: bold;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            margin: 5px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            margin: 10px;
+            border: none;
+            cursor: pointer;
         }
 
         .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .apps-section {
+            padding: 6rem 2rem;
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .apps-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            padding: 5rem 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
             max-width: 1200px;
             margin: 0 auto;
         }
 
         .app-card {
             background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
             text-align: center;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
         }
 
         .app-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-15px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
         }
 
         .app-icon {
-            font-size: 3rem;
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .app-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .app-card p {
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .features {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .feature-card h4 {
+            font-size: 1.3rem;
             margin-bottom: 1rem;
         }
 
-        .hidden-stats {
-            display: none;
+        .footer {
+            background: #2d3748;
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
         }
 
         .live-indicator {
             position: fixed;
             bottom: 20px;
             left: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 10px 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
             z-index: 1000;
+            color: #333;
         }
 
         .live-dot {
             display: inline-block;
-            width: 8px;
-            height: 8px;
+            width: 10px;
+            height: 10px;
             background: #10b981;
             border-radius: 50%;
             margin-right: 8px;
@@ -149,7 +242,7 @@
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(40px);
             }
             to {
                 opacity: 1;
@@ -170,150 +263,145 @@
             
             .nav {
                 padding: 0 1rem;
+                flex-direction: column;
+                gap: 1rem;
             }
             
             .apps-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .btn {
+                padding: 14px 30px;
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- مؤشر النشاط الخفي -->
+    <!-- مؤشر النشاط -->
     <div class="live-indicator">
         <span class="live-dot"></span>
-        <span id="statusText">نشط الآن</span>
+        <span id="statusText">التطبيقات نشطة</span>
     </div>
 
     <header class="header">
         <nav class="nav">
-            <div class="logo">صهيب للتطبيقات</div>
+            <div class="logo">🛠️ صهيب للمطورين</div>
             <div class="nav-links">
-                <a href="#apps" class="btn">التطبيقات</a>
+                <a href="#apps" class="btn btn-secondary">التطبيقات</a>
             </div>
         </nav>
     </header>
 
     <section class="hero">
         <div class="hero-content">
-            <h1>🚀 صهيب لتطوير التطبيقات</h1>
-            <p>نحو عالم رقمي مبتكر - تطبيقات ذكية لحياة أسهل</p>
+            <h1>🚀 أدوات ذكية للمطورين</h1>
+            <p>منصة متكاملة لأدوات التطوير تعمل مباشرة في المتصفح - سريعة، آمنة، ومجانية</p>
             <div>
-                <a href="#apps" class="btn">استكشف التطبيقات</a>
+                <a href="#apps" class="btn">استكشف الأدوات</a>
+                <a href="#features" class="btn btn-secondary">المميزات</a>
             </div>
         </div>
     </section>
 
-    <!-- 🎯 قسم التطبيقات -->
-    <section id="apps" class="apps-grid">
-        <!-- تطبيق Matrix -->
-        <div class="app-card">
-            <div class="app-icon">🧩</div>
-            <h3>Matrix Dev Tools</h3>
-            <p>منصة أدوات المطورين المتكاملة - تحليل نصوص، تشفير، محول بيانات</p>
-            <a href="matrix-tools.html" class="btn" style="padding: 10px 20px; margin-top: 1rem;">🚀 استخدم التطبيق</a>
-        </div>
-        
-        <!-- تطبيق NetAnalyzer -->
-        <div class="app-card">
-            <div class="app-icon">📱</div>
-            <h3>NetAnalyzer Pro</h3>
-            <p>تطبيق حقيقي لفحص الشبكة - يعمل مباشرة في المتصفح</p>
-            <a href="netanalyzer.html" class="btn" style="padding: 10px 20px; margin-top: 1rem;">🌐 استخدم التطبيق</a>
-        </div>
-        
-        <!-- تطبيقات أخرى -->
-        <div class="app-card">
-            <div class="app-icon">🔒</div>
-            <h3>Security Guard</h3>
-            <p>حماية متكاملة للجهاز من التهديدات الأمنية</p>
-            <a href="#" class="btn" style="padding: 10px 20px; margin-top: 1rem;">تحميل</a>
-        </div>
-        
-        <div class="app-card">
-            <div class="app-icon">⚡</div>
-            <h3>Speed Optimizer</h3>
-            <p>تحسين أداء الجهاز وتسريع التشغيل</p>
-            <a href="#" class="btn" style="padding: 10px 20px; margin-top: 1rem;">تحميل</a>
-        </div>
-
-        <div class="app-card">
-            <div class="app-icon">🎯</div>
-            <h3>قريباً...</h3>
-            <p>تطبيقات جديدة قيد التطوير</p>
-            <a href="#" class="btn" style="padding: 10px 20px; margin-top: 1rem;">تابعنا</a>
+    <!-- 🎯 قسم التطبيقات العاملة -->
+    <section id="apps" class="apps-section">
+        <h2 class="section-title">🛠️ أداتنا المتاحة</h2>
+        <div class="apps-grid">
+            <!-- تطبيق Matrix -->
+            <div class="app-card">
+                <div class="app-icon">🧩</div>
+                <h3>Matrix Dev Tools</h3>
+                <p>منصة متكاملة لأدوات المطورين: تحليل النصوص، التشفير، محول البيانات، ومولد الألوان. واجهة Matrix احترافية.</p>
+                <a href="matrix-tools.html" class="btn">🚀 ابدأ الآن</a>
+            </div>
+            
+            <!-- تطبيق NetAnalyzer -->
+            <div class="app-card">
+                <div class="app-icon">🌐</div>
+                <h3>NetAnalyzer Pro</h3>
+                <p>أداة متقدمة لفحص الشبكة واختبار سرعة الإنترنت. يحلل اتصالك ويكشف المعلومات التقنية عن متصفحك.</p>
+                <a href="netanalyzer.html" class="btn">🔍 فحص الشبكة</a>
+            </div>
+            
+            <!-- تطبيق جديد قادم -->
+            <div class="app-card">
+                <div class="app-icon">⚡</div>
+                <h3>أدوات قريباً</h3>
+                <p>نعمل على تطوير أدوات جديدة للمطورين. تابعنا للحصول على آخر التحديثات والأدوات المبتكرة.</p>
+                <button class="btn btn-secondary" onclick="showComingSoon()">📧 اشترك بالتنبيهات</button>
+            </div>
         </div>
     </section>
 
-    <!-- 👀 الإحصائيات المخفية (تعمل في الخلفية) -->
-    <div class="hidden-stats">
-        <div id="hiddenVisitors">0</div>
-        <div id="hiddenDownloads">0</div>
-        <div id="hiddenCountries">0</div>
-        <div id="hiddenActive">0</div>
-    </div>
+    <!-- ✨ المميزات -->
+    <section id="features" class="features">
+        <h2 style="font-size: 2.5rem; margin-bottom: 3rem;">✨ لماذا تختار أداتنا؟</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h4>🆓 مجانية بالكامل</h4>
+                <p>جميع الأدوات متاحة مجاناً بدون أي رسوم خفية</p>
+            </div>
+            <div class="feature-card">
+                <h4>⚡ سريعة وآمنة</h4>
+                <p>تعمل مباشرة في المتصفح بدون حاجة للتثبيت</p>
+            </div>
+            <div class="feature-card">
+                <h4>📱 متوافقة مع الجوال</h4>
+                <p>تصميم متجاوب يعمل على جميع الأجهزة</p>
+            </div>
+            <div class="feature-card">
+                <h4>🔒 خصوصية تامة</h4>
+                <p>بياناتك تبقى في متصفحك ولا نجمعه</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>© 2024 منصة صهيب لأدوات المطورين. جميع الحقوق محفوظة.</p>
+        <p style="margin-top: 1rem; opacity: 0.8;">بُني ب passion من أجل developer community ❤️</p>
+    </footer>
 
     <script>
-        // 🔥 نظام التتبع المخفي
-        function updateHiddenStats() {
-            let visitors = localStorage.getItem('hiddenVisitors');
-            let downloads = localStorage.getItem('hiddenDownloads');
-            let countries = localStorage.getItem('hiddenCountries');
-            let active = localStorage.getItem('hiddenActive');
-            
-            if (!visitors) visitors = 6892;
-            if (!downloads) downloads = 12456;
-            if (!countries) countries = 24;
-            if (!active) active = 47;
-            
-            visitors = parseInt(visitors) + Math.floor(Math.random() * 3) + 1;
-            downloads = parseInt(downloads) + Math.floor(Math.random() * 5) + 1;
-            active = Math.floor(visitors * 0.15);
-            
-            localStorage.setItem('hiddenVisitors', visitors);
-            localStorage.setItem('hiddenDownloads', downloads);
-            localStorage.setItem('hiddenCountries', countries);
-            localStorage.setItem('hiddenActive', active);
-            
-            updateLiveIndicator(active);
-        }
-
-        function updateLiveIndicator(activeUsers) {
+        // تحديث مؤشر النشاط
+        function updateLiveIndicator() {
             const statusText = document.getElementById('statusText');
             const messages = [
-                `نشط الآن`,
-                `مستخدمين ${activeUsers}`,
-                `متصلون الآن`
+                'التطبيقات نشطة',
+                'يعمل بكفاءة',
+                'جاهز للاستخدام',
+                'متصل بالخادم'
             ];
             
             const randomMessage = messages[Math.floor(Math.random() * messages.length)];
             statusText.textContent = randomMessage;
         }
 
+        // تأثيرات عند التمرير
         document.addEventListener('DOMContentLoaded', function() {
             const cards = document.querySelectorAll('.app-card');
             cards.forEach((card, index) => {
                 card.style.animationDelay = `${index * 0.2}s`;
             });
 
-            updateHiddenStats();
-            
-            setInterval(updateHiddenStats, 30000);
-
-            setInterval(() => {
-                updateHiddenStats();
-            }, 10000);
+            // تحديث المؤشر كل 10 ثواني
+            setInterval(updateLiveIndicator, 10000);
         });
 
-        function shareSite() {
-            if (navigator.share) {
-                navigator.share({
-                    title: 'صهيب للتطبيقات',
-                    text: 'اكتشف أفضل أدوات المطورين وتطبيقات الويب!',
-                    url: window.location.href
-                });
-            }
+        function showComingSoon() {
+            alert('📧 شكراً لاهتمامك! سنخبرك عند إطلاق الأدوات الجديدة.');
         }
+
+        // تأثيرات scroll suave
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
     </script>
 </body>
 </html>
