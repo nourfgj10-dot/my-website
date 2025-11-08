@@ -49,6 +49,11 @@
             -webkit-text-fill-color: transparent;
         }
 
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+        }
+
         .hero {
             height: 100vh;
             display: flex;
@@ -98,10 +103,17 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
         }
 
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
+        .btn-hero-secondary {
+            background: rgba(255, 255, 255, 0.9);
+            color: #667eea;
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            font-weight: bold;
+        }
+
+        .btn-hero-secondary:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-5px);
         }
 
         .apps-section {
@@ -203,6 +215,7 @@
             font-family: 'Tajawal', sans-serif;
             font-size: 1rem;
             resize: vertical;
+            color: #333;
         }
 
         .form-group textarea {
@@ -266,17 +279,22 @@
         }
 
         .feature-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            background: white;
             padding: 2rem;
             border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
 
         .feature-card h4 {
             font-size: 1.3rem;
             margin-bottom: 1rem;
             color: #333;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
         }
 
         .footer {
@@ -363,8 +381,8 @@
         <nav class="nav">
             <div class="logo">🛠️ صهيب للمطورين</div>
             <div class="nav-links">
-                <a href="#apps" class="btn btn-secondary">التطبيقات</a>
-                <a href="#feedback" class="btn btn-secondary">شارك رأيك</a>
+                <a href="#apps" class="btn">التطبيقات</a>
+                <a href="#feedback" class="btn">شارك رأيك</a>
             </div>
         </nav>
     </header>
@@ -375,7 +393,7 @@
             <p>منصة متكاملة لأدوات التطوير تعمل مباشرة في المتصفح - سريعة، آمنة، ومجانية</p>
             <div>
                 <a href="#apps" class="btn">استكشف الأدوات</a>
-                <a href="#feedback" class="btn btn-secondary">شاركنا رأيك</a>
+                <a href="#feedback" class="btn btn-hero-secondary">شاركنا رأيك</a>
             </div>
         </div>
     </section>
@@ -405,7 +423,7 @@
                 <div class="app-icon">💡</div>
                 <h3>أفكار جديدة قادمة</h3>
                 <p>نعمل على تطوير أدوات جديدة بناءً على آرائكم. شاركنا أفكارك واحتياجاتك في قسم التعليقات.</p>
-                <a href="#feedback" class="btn btn-secondary">📝 اقترح أداة</a>
+                <a href="#feedback" class="btn">📝 اقترح أداة</a>
             </div>
         </div>
     </section>
