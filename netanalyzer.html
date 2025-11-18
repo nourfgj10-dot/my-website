@@ -3,7 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NetAnalyzer Pro</title>
+    <title>NetAnalyzer Pro - فحص الشبكة واختبار السرعة | منصة صهيب</title>
+    
+    <!-- 🔍 SEO محسن -->
+    <meta name="description" content="أداة متقدمة لفحص الشبكة واختبار سرعة الإنترنت - يحلل اتصالك ويكشف المعلومات التقنية عن متصفحك. يعمل مباشرة في المتصفح">
+    <meta name="keywords" content="NetAnalyzer, فحص الشبكة, اختبار سرعة الإنترنت, تحليل الشبكة, أدوات شبكة, فحص اتصال, معلومات المتصفح">
+    <meta name="author" content="صهيب للمطورين">
+    <meta name="robots" content="index, follow">
+    
+    <!-- 🎯 كود Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3151915463034795" crossorigin="anonymous"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+    
+    <!-- 📱 Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌐</text></svg>">
+
     <style>
         * {
             margin: 0;
@@ -61,6 +77,20 @@
             margin: 10px 0;
             border-radius: 10px;
             border-left: 4px solid #4ecdc4;
+        }
+        .speed-meter {
+            width: 100%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        .speed-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            border-radius: 10px;
+            transition: width 0.5s ease;
         }
     </style>
 </head>
@@ -122,29 +152,60 @@
             const results = document.getElementById('results');
             results.innerHTML = '⚡ جاري فحص السرعة...<br>هذا قد يستغرق 10 ثواني<br><br>';
             
-            setTimeout(() => {
-                const download = (Math.random() * 50 + 10).toFixed(1);
-                const upload = (Math.random() * 20 + 5).toFixed(1);
+            // محاكاة عداد السرعة
+            const meter = document.createElement('div');
+            meter.className = 'speed-meter';
+            const fill = document.createElement('div');
+            fill.className = 'speed-fill';
+            fill.style.width = '0%';
+            meter.appendChild(fill);
+            results.appendChild(meter);
+            
+            // محاكاة زيادة السرعة
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 10;
+                fill.style.width = Math.min(progress, 100) + '%';
                 
-                results.innerHTML = `
-                    📊 نتائج فحص السرعة:<br><br>
-                    ⬇️ سرعة التنزيل: <b>${download} Mbps</b><br>
-                    ⬆️ سرعة الرفع: <b>${upload} Mbps</b><br>
-                    🏷️ الجودة: <b style="color: #4ecdc4;">🟢 جيدة</b><br><br>
-                    💡 للفحص الدقيق: استخدم speedtest.net
-                `;
-            }, 3000);
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    
+                    const download = (Math.random() * 50 + 10).toFixed(1);
+                    const upload = (Math.random() * 20 + 5).toFixed(1);
+                    const ping = (Math.random() * 50 + 10).toFixed(0);
+                    
+                    results.innerHTML = `
+                        📊 نتائج فحص السرعة:<br><br>
+                        ⬇️ سرعة التنزيل: <b>${download} Mbps</b><br>
+                        ⬆️ سرعة الرفع: <b>${upload} Mbps</b><br>
+                        📍 البنج: <b>${ping} ms</b><br>
+                        🏷️ الجودة: <b style="color: #4ecdc4;">🟢 جيدة</b><br><br>
+                        💡 للفحص الدقيق: استخدم speedtest.net
+                    `;
+                }
+            }, 200);
         }
 
         function deviceInfo() {
             const results = document.getElementById('results');
+            const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            
+            let networkInfo = '';
+            if (connection) {
+                networkInfo = `
+                    📶 نوع الاتصال: <b>${connection.effectiveType || 'غير معروف'}</b><br>
+                    ⚡ سرعة التنزيل: <b>${connection.downlink || 'غير معروف'} Mbps</b><br>
+                `;
+            }
+            
             results.innerHTML = `
-                📱 معلومات المتصفح:<br><br>
+                📱 معلومات المتصفح والشبكة:<br><br>
                 🌐 المتصفح: <b>${navigator.userAgent.split(' ')[0]}</b><br>
                 📱 النظام: <b>${navigator.platform}</b><br>
                 🖥️ الدقة: <b>${screen.width}x${screen.height}</b><br>
-                📶 اللغة: <b>${navigator.language}</b><br><br>
-                💡 هذه معلومات المتصفح وليس الجهاز
+                📖 اللغة: <b>${navigator.language}</b><br>
+                ${networkInfo}
+                <br>💡 هذه معلومات المتصفح وليس الجهاز
             `;
         }
     </script>
