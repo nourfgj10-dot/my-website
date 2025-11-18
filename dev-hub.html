@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مركز أدوات المطورين - JSON، APIs، تشفير | Matrix Dev Hub</title>
+    
+    <!-- 🔍 إعدادات SEO -->
+    <meta name="description" content="منصة متكاملة لأدوات المطورين - محلل JSON، مختبر APIs، مشفر Base64، مولد كلمات مرور. أدوات مجانية تعمل في المتصفح">
+    <meta name="keywords" content="أدوات المطورين, JSON validator, API tester, مشفر base64, مولد كلمات مرور, أدوات برمجة">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: #000000;
+            color: #00ff00;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* تأثير Matrix الخلفي */
+        #matrixCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 30px;
+            background: rgba(0, 20, 0, 0.8);
+            border: 2px solid #00ff00;
+            border-radius: 10px;
+            box-shadow: 0 0 30px #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+        }
+
+        .header h1 {
+            font-size: 3.5em;
+            margin-bottom: 15px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .header p {
+            font-size: 1.3em;
+            opacity: 0.9;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .tool-card {
+            background: rgba(0, 20, 0, 0.7);
+            padding: 25px;
+            border: 2px solid #00ff00;
+            border-radius: 10px;
+            box-shadow: 0 0 20px #00ff00;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00ff00, #00cc00, #009900, #00ff00);
+            z-index: -1;
+            animation: borderGlow 3s linear infinite;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px #00ff00;
+        }
+
+        .tool-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #00ff00;
+            border-bottom: 1px solid #00ff00;
+            padding-bottom: 10px;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        textarea, input, select {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            background: rgba(0, 10, 0, 0.9);
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            resize: vertical;
+        }
+
+        textarea {
+            min-height: 120px;
+        }
+
+        button {
+            background: transparent;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 12px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button:hover {
+            background: #00ff00;
+            color: #000000;
+            box-shadow: 0 0 15px #00ff00;
+            transform: translateY(-2px);
+        }
+
+        .result-box {
+            background: rgba(0, 15, 0, 0.9);
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 10px;
+            min-height: 50px;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .success {
+            color: #00ff88;
+            border-color: #00ff88;
+        }
+
+        .error {
+            color: #ff4444;
+            border-color: #ff4444;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00; }
+            to { text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00; }
+        }
+
+        @keyframes borderGlow {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+
+        /* تصميم متجاوب */
+        @media (max-width: 768px) {
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- خلفية Matrix -->
+    <canvas id="matrixCanvas"></canvas>
+
+    <div class="container">
+        <div class="header">
+            <h1>🧩 مركز أدوات المطورين</h1>
+            <p>أدوات احترافية للمطورين - سريعة، آمنة، تعمل في المتصفح</p>
+        </div>
+        
+        <div class="tools-grid">
+            <!-- أداة JSON Formatter -->
+            <div class="tool-card">
+                <h3>🔧 محلل وتنسيق JSON</h3>
+                <textarea id="jsonInput" placeholder='{"name": "John", "age": 30, "city": "New York"}' rows="6"></textarea>
+                <div>
+                    <button onclick="formatJSON()">🎨 تنسيق</button>
+                    <button onclick="validateJSON()">✅ تحقق</button>
+                    <button onclick="minifyJSON()">📦 تصغير</button>
+                    <button onclick="clearJSON()">🗑️ مسح</button>
+                </div>
+                <div id="jsonOutput" class="result-box">ستظهر النتيجة هنا...</div>
+            </div>
+            
+            <!-- أداة API Tester -->
+            <div class="tool-card">
+                <h3>🌐 مختبر API</h3>
+                <select id="httpMethod">
+                    <option value="GET">GET</option>
+                    <option value="POST">POST</option>
+                    <option value="PUT">PUT</option>
+                    <option value="DELETE">DELETE</option>
+                </select>
+                <input type="url" id="apiUrl" placeholder="https://jsonplaceholder.typicode.com/posts/1">
+                <textarea id="apiBody" placeholder='{"title": "test", "body": "test body"}' rows="3"></textarea>
+                <button onclick="testAPI()">🚀 اختبار API</button>
+                <div id="apiResult" class="result-box">نتيجة الـ API ستظهر هنا...</div>
+            </div>
+
+            <!-- أداة Base64 Encoder -->
+            <div class="tool-card">
+                <h3>🔐 مشفر Base64</h3>
+                <textarea id="base64Input" placeholder="أدخل النص للتشفير أو فك التشفير..." rows="4"></textarea>
+                <div>
+                    <button onclick="encodeBase64()">🔒 تشفير</button>
+                    <button onclick="decodeBase64()">🔓 فك التشفير</button>
+                </div>
+                <textarea id="base64Output" placeholder="الناتج..." rows="4" readonly></textarea>
+            </div>
+
+            <!-- أداة Password Generator -->
+            <div class="tool-card">
+                <h3>🎲 مولد كلمات المرور</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div>
+                        <label>الطول: <span id="lengthValue">12</span></label>
+                        <input type="range" id="passLength" min="8" max="32" value="12" oninput="updateLength()">
+                    </div>
+                    <div>
+                        <label><input type="checkbox" id="uppercase" checked> أحرف كبيرة</label>
+                        <label><input type="checkbox" id="numbers" checked> أرقام</label>
+                        <label><input type="checkbox" id="symbols"> رموز</label>
+                    </div>
+                </div>
+                <button onclick="generatePassword()">🎯 توليد كلمة مرور</button>
+                <input type="text" id="passwordOutput" readonly style="margin-top: 10px;">
+                <button onclick="copyPassword()">📋 نسخ</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // تأثير Matrix الخلفي
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const chars = "アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const charArray = chars.split('');
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+        
+        for(let i = 0; i < columns; i++) {
+            drops[i] = Math.random() * 100;
+        }
+        
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#00ff00';
+            ctx.font = fontSize + 'px monospace';
+            
+            for(let i = 0; i < drops.length; i++) {
+                const text = charArray[Math.floor(Math.random() * charArray.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                
+                if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        
+        setInterval(drawMatrix, 35);
+
+        // أدوات المطورين - JSON Formatter
+        function formatJSON() {
+            try {
+                const input = document.getElementById('jsonInput').value;
+                const parsed = JSON.parse(input);
+                document.getElementById('jsonOutput').textContent = JSON.stringify(parsed, null, 4);
+                document.getElementById('jsonOutput').className = 'result-box success';
+            } catch (e) {
+                document.getElementById('jsonOutput').textContent = '❌ خطأ في JSON: ' + e.message;
+                document.getElementById('jsonOutput').className = 'result-box error';
+            }
+        }
+
+        function validateJSON() {
+            try {
+                const input = document.getElementById('jsonInput').value;
+                JSON.parse(input);
+                document.getElementById('jsonOutput').textContent = '✅ JSON صالح';
+                document.getElementById('jsonOutput').className = 'result-box success';
+            } catch (e) {
+                document.getElementById('jsonOutput').textContent = '❌ JSON غير صالح: ' + e.message;
+                document.getElementById('jsonOutput').className = 'result-box error';
+            }
+        }
+
+        function minifyJSON() {
+            try {
+                const input = document.getElementById('jsonInput').value;
+                const parsed = JSON.parse(input);
+                document.getElementById('jsonOutput').textContent = JSON.stringify(parsed);
+                document.getElementById('jsonOutput').className = 'result-box success';
+            } catch (e) {
+                document.getElementById('jsonOutput').textContent = '❌ خطأ في JSON: ' + e.message;
+                document.getElementById('jsonOutput').className = 'result-box error';
+            }
+        }
+
+        function clearJSON() {
+            document.getElementById('jsonInput').value = '';
+            document.getElementById('jsonOutput').textContent = 'ستظهر النتيجة هنا...';
+            document.getElementById('jsonOutput').className = 'result-box';
+        }
+
+        // أدوات المطورين - API Tester
+        async function testAPI() {
+            const method = document.getElementById('httpMethod').value;
+            const url = document.getElementById('apiUrl').value;
+            const body = document.getElementById('apiBody').value;
+            
+            if (!url) {
+                document.getElementById('apiResult').textContent = '❌ يرجى إدخال رابط API';
+                document.getElementById('apiResult').className = 'result-box error';
+                return;
+            }
+            
+            try {
+                const options = {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                };
+                
+                if (method !== 'GET' && body) {
+                    options.body = body;
+                }
+                
+                document.getElementById('apiResult').textContent = '⏳ جاري الاتصال...';
+                
+                const response = await fetch(url, options);
+                const data = await response.json();
+                
+                document.getElementById('apiResult').textContent = JSON.stringify(data, null, 2);
+                document.getElementById('apiResult').className = 'result-box success';
+            } catch (error) {
+                document.getElementById('apiResult').textContent = '❌ خطأ: ' + error.message;
+                document.getElementById('apiResult').className = 'result-box error';
+            }
+        }
+
+        // أدوات المطورين - Base64
+        function encodeBase64() {
+            const text = document.getElementById('base64Input').value;
+            const encoded = btoa(unescape(encodeURIComponent(text)));
+            document.getElementById('base64Output').value = encoded;
+        }
+
+        function decodeBase64() {
+            try {
+                const encoded = document.getElementById('base64Input').value;
+                const decoded = decodeURIComponent(escape(atob(encoded)));
+                document.getElementById('base64Output').value = decoded;
+            } catch (error) {
+                document.getElementById('base64Output').value = '❌ خطأ في فك التشفير';
+            }
+        }
+
+        // أدوات المطورين - Password Generator
+        function updateLength() {
+            document.getElementById('lengthValue').textContent = document.getElementById('passLength').value;
+        }
+
+        function generatePassword() {
+            const length = document.getElementById('passLength').value;
+            const uppercase = document.getElementById('uppercase').checked;
+            const numbers = document.getElementById('numbers').checked;
+            const symbols = document.getElementById('symbols').checked;
+            
+            let charset = 'abcdefghijklmnopqrstuvwxyz';
+            if (uppercase) charset += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            if (numbers) charset += '0123456789';
+            if (symbols) charset += '!@#$%^&*()_+-=[]{}|;:,.<>?';
+            
+            let password = '';
+            for (let i = 0; i < length; i++) {
+                password += charset.charAt(Math.floor(Math.random() * charset.length));
+            }
+            
+            document.getElementById('passwordOutput').value = password;
+        }
+
+        function copyPassword() {
+            const passwordField = document.getElementById('passwordOutput');
+            passwordField.select();
+            document.execCommand('copy');
+            alert('✅ تم نسخ كلمة المرور');
+        }
+
+        // تحديث تلقائي لحقول الإدخال
+        document.getElementById('jsonInput').addEventListener('input', function() {
+            if (this.value.trim() === '') {
+                document.getElementById('jsonOutput').textContent = 'ستظهر النتيجة هنا...';
+                document.getElementById('jsonOutput').className = 'result-box';
+            }
+        });
+    </script>
+</body>
+</html>
