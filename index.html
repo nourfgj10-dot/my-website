@@ -504,6 +504,23 @@
     </style>
 </head>
 <body>
+    <!-- إعادة التوجيه التلقائي -->
+    <script>
+        // تحويل تلقائي للنطاق الأساسي
+        const correctDomain = 'regal-chebakia-dff020.netlify.app';
+        const currentDomain = window.location.hostname;
+        
+        // إذا كان المستخدم على نطاق خاطئ، قم بتحويله
+        if (currentDomain !== correctDomain && 
+            (currentDomain.includes('chebakia-dff020') || 
+             currentDomain.includes('candid-haupia') ||
+             currentDomain.includes('nourfgj10-dot.github.io'))) {
+            
+            const newUrl = 'https://' + correctDomain + window.location.pathname + window.location.search;
+            window.location.href = newUrl;
+        }
+    </script>
+
     <!-- مؤشر النشاط -->
     <div class="live-indicator">
         <span class="live-dot"></span>
@@ -823,4 +840,3 @@
     </script>
 </body>
 </html>
-
