@@ -504,20 +504,20 @@
     </style>
 </head>
 <body>
-    <!-- إعادة التوجيه التلقائي -->
+    <!-- إعادة التوجيه التلقائي المصحح -->
     <script>
-        // تحويل تلقائي للنطاق الأساسي
+        // تحويل تلقائي للنطاق الأساسي - الإصدار المصحح
         const correctDomain = 'regal-chebakia-dff020.netlify.app';
         const currentDomain = window.location.hostname;
         
-        // إذا كان المستخدم على نطاق خاطئ، قم بتحويله
+        // إذا كان المستخدم على نطاق خاطئ، حوله للصفحة الرئيسية فقط
         if (currentDomain !== correctDomain && 
             (currentDomain.includes('chebakia-dff020') || 
              currentDomain.includes('candid-haupia') ||
              currentDomain.includes('nourfgj10-dot.github.io'))) {
             
-            const newUrl = 'https://' + correctDomain + window.location.pathname + window.location.search;
-            window.location.href = newUrl;
+            // تحويل للصفحة الرئيسية فقط، بدون إضافة مسارات إضافية
+            window.location.href = 'https://regal-chebakia-dff020.netlify.app/';
         }
     </script>
 
