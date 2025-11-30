@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <!-- تحويل ذكي للروابط الأخرى إلى الرابط الرئيسي -->
+    <!-- تحويل ذكي للروابط الأخرى إلى الرابط الرئيسي - الإصدار المحسن -->
     <script>
         // تحويل الروابط الأخرى إلى الرابط الرئيسي لـ AdSense
         const currentUrl = window.location.href;
@@ -9,8 +9,14 @@
         
         // إذا كان الرابط ليس الرابط الرئيسي، قم بالتحويل
         if (!currentUrl.includes(mainDomain) && !currentUrl.includes('localhost')) {
-            // احتفظ بالصفحة المطلوبة من الرابط القديم
-            const path = window.location.pathname;
+            // احصل على الصفحة المطلوبة بدون إضافة my-website/
+            let path = window.location.pathname;
+            
+            // إصلاح: إزالة /my-website/ إذا existed في المسار
+            if (path.includes('/my-website/')) {
+                path = path.replace('/my-website/', '/');
+            }
+            
             const search = window.location.search;
             const hash = window.location.hash;
             let newUrl = 'https://' + mainDomain + path;
