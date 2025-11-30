@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دليل تشفير Base64 الشامل - صهيب للمطورين</title>
+    <meta name="description" content="دليل مفصل عن تشفير Base64 - تعلم الأساسيات، الاستخدامات العملية، الأمثلة البرمجية، والنصائح الأمنية المتقدمة">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Tajawal', sans-serif; background: #f8f9fa; color: #333; line-height: 1.8; }
+        .container { max-width: 800px; margin: 0 auto; padding: 2rem; }
+        .header { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 4rem 2rem; text-align: center; }
+        h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+        h2 { color: #667eea; margin: 2rem 0 1rem; border-right: 4px solid #667eea; padding-right: 1rem; }
+        h3 { color: #5a67d8; margin: 1.5rem 0 0.5rem; }
+        p { margin-bottom: 1rem; font-size: 1.1rem; }
+        .btn { display: inline-block; padding: 12px 25px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; margin: 0.5rem; }
+        .code-block { background: #2d3748; color: #e2e8f0; padding: 1.5rem; border-radius: 8px; margin: 1rem 0; font-family: 'Courier New', monospace; overflow-x: auto; }
+        .info-box { background: #e6fffa; border-right: 4px solid #38b2ac; padding: 1rem; margin: 1rem 0; border-radius: 5px; }
+        .warning-box { background: #fed7d7; border-right: 4px solid #e53e3e; padding: 1rem; margin: 1rem 0; border-radius: 5px; }
+        .article-meta { background: white; padding: 1rem; border-radius: 8px; margin: 1rem 0; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        ul, ol { margin-right: 2rem; margin-bottom: 1rem; }
+        li { margin-bottom: 0.5rem; }
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; background: white; }
+        th, td { padding: 12px; text-align: right; border: 1px solid #ddd; }
+        th { background: #667eea; color: white; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🔐 دليل تشفير Base64 الشامل</h1>
+        <p>من الأساسيات إلى التقنيات المتقدمة - دليل عملي شامل</p>
+    </div>
+
+    <div class="container">
+        <div class="article-meta">
+            <strong>📅 تاريخ النشر:</strong> 19 نوفمبر 2024 | 
+            <strong>⏱️ وقت القراءة:</strong> 8 دقائق | 
+            <strong>📊 المستوى:</strong> مبتدئ إلى متقدم
+        </div>
+
+        <h2>مقدمة</h2>
+        <p>Base64 هو أحد أنظمة التشفير الأكثر استخداماً في عالم البرمجة وتطوير الويب. في هذا الدليل الشامل، سنستكشف معاً كل ما تحتاج معرفته عن هذا النظام الهام، من المفاهيم الأساسية إلى الاستخدامات المتقدمة.</p>
+
+        <div class="info-box">
+            <strong>💡 معلومة سريعة:</strong> Base64 ليس أداة تشفير أمنية، بل هو نظام ترميز (Encoding) يحول البيانات الثنائية إلى نص يمكن قراءته.
+        </div>
+
+        <h2>ما هو تشفير Base64؟</h2>
+        <p>Base64 هو نظام ترميز يحول البيانات الثنائية (Binary Data) إلى تنسيق نصي باستخدام 64 حرفاً محدداً من مجموعة ASCII. هذا النظام أصبح معياراً واسع الانتشار لنقل البيانات عبر أنظمة تدعم النص فقط.</p>
+
+        <h3>لماذا نستخدم Base64؟</h3>
+        <ul>
+            <li><strong>نقل البيانات عبر الأنظمة النصية:</strong> مثل البريد الإلكتروني (MIME)</li>
+            <li><strong>تضمين الملفات في HTML/CSS:</strong> مثل الصور والخطوط</li>
+            <li><strong>تخزين البيانات في قواعد البيانات النصية</strong></li>
+            <li><strong>نقل البيانات عبر APIs</strong></li>
+        </ul>
+
+        <h2>كيف يعمل Base64؟</h2>
+        <p>يعمل Base64 على تقسيم البيانات المدخلة إلى مجموعات من 3 بايت (24 بت)، ثم تقسيم كل مجموعة إلى 4 أجزاء من 6 بت لكل منها. كل جزء من 6 بت يتم تحويله إلى حرف من مجموعة الحروف المكونة من 64 حرفاً.</p>
+
+        <div class="code-block">
+// مثال على عملية التشفير<br>
+النص الأصلي: "Hello"<br>
+البيانات الثنائية: 01001000 01100101 01101100 01101100 01101111<br>
+بعد تقسيم إلى 6 بت: 010010 000110 010101 101100 011011 000110 1111<br>
+بعد التحويل: SGVsbG8=<br>
+الناتج النهائي: "SGVsbG8="
+        </div>
+
+        <h2>مجموعة حروف Base64</h2>
+        <p>تتكون مجموعة الحروف المستخدمة في Base64 من:</p>
+        
+        <table>
+            <tr><th>النطاق</th><th>الحروف</th></tr>
+            <tr><td>0-25</td><td>A-Z</td></tr>
+            <tr><td>26-51</td><td>a-z</td></tr>
+            <tr><td>52-61</td><td>0-9</td></tr>
+            <tr><td>62</td><td>+</td></tr>
+            <tr><td>63</td><td>/</td></tr>
+            <tr><td>الحشو</td><td>=</td></tr>
+        </table>
+
+        <h2>أمثلة عملية</h2>
+        
+        <h3>مثال 1: تشفير نص بسيط</h3>
+        <div class="code-block">
+النص: "Hello World"<br>
+Base64: "SGVsbG8gV29ybGQ="
+        </div>
+
+        <h3>مثال 2: تشفير بيانات متقدمة</h3>
+        <div class="code-block">
+النص: "مرحبا بالعالم"<br>
+Base64: "2YjZhtmI2YUg2KjZitmG2LnYqQ=="
+        </div>
+
+        <h2>الاستخدامات العملية</h2>
+
+        <h3>1. تضمين الصور في HTML</h3>
+        <div class="code-block">
+&lt;img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA..." alt="صورة"&gt;
+        </div>
+
+        <h3>2. نقل البيانات في APIs</h3>
+        <div class="code-block">
+{
+  "file_data": "UEsDBBQAAAAIA...",
+  "file_name": "document.pdf",
+  "mime_type": "application/pdf"
+}
+        </div>
+
+        <h3>3. تخزين البيانات في قواعد البيانات</h3>
+        <p>يمكن استخدام Base64 لتخزين الملفات الصغيرة مباشرة في قواعد البيانات النصية.</p>
+
+        <div class="warning-box">
+            <strong>⚠️ تحذير هام:</strong> Base64 ليس أداة تشفير أمنية! لا تستخدمه لحماية البيانات الحساسة. للحماية استخدم أنظمة تشفير قوية مثل AES.
+        </div>
+
+        <h2>المزايا والعيوب</h2>
+
+        <h3>المزايا:</h3>
+        <ul>
+            <li>✅ سهل التنفيذ والاستخدام</li>
+            <li>✅ مدعوم في جميع لغات البرمجة</li>
+            <li>✅ يعمل عبر جميع الأنظمة</li>
+            <li>✅ مناسب للبيانات الصغيرة والمتوسطة</li>
+        </ul>
+
+        <h3>العيوب:</h3>
+        <ul>
+            <li>❌ يزيد حجم البيانات بنسبة 33%</li>
+            <li>❌ ليس أداة تشفير أمنية</li>
+            <li>❌ غير فعال للبيانات الكبيرة جداً</li>
+            <li>❌ يحتاج معالجة إضافية</li>
+        </ul>
+
+        <h2>الكود البرمجي</h2>
+
+        <h3>JavaScript - تشفير Base64</h3>
+        <div class="code-block">
+// تشفير نص إلى Base64<br>
+function encodeBase64(text) {<br>
+  return btoa(unescape(encodeURIComponent(text)));<br>
+}<br><br>
+
+// فك تشفير Base64<br>
+function decodeBase64(encoded) {<br>
+  return decodeURIComponent(escape(atob(encoded)));<br>
+}<br><br>
+
+// مثال على الاستخدام<br>
+const text = "Hello World";<br>
+const encoded = encodeBase64(text); // "SGVsbG8gV29ybGQ="<br>
+const decoded = decodeBase64(encoded); // "Hello World"
+        </div>
+
+        <h2>الخاتمة</h2>
+        <p>Base64 يظل أداة أساسية في مجموعة أدوات أي مبرمج. بينما ليس حلاً للتشفير الأمني، فإنه يوفر طريقة موثوقة لتحويل البيانات الثنائية إلى تنسيق نصي يمكن نقله عبر أنظمة مختلفة.</p>
+
+        <p>ننصحك بتجربة أداة <a href="dev-hub.html">Base64 في مركز أدواتنا</a> لممارسة التشفير وفك التشفير بشكل عملي.</p>
+
+        <div style="text-align: center; margin: 2rem 0;">
+            <a href="dev-hub.html" class="btn">🔧 تجربة أداة Base64</a>
+            <a href="blog.html" class="btn">📚 العودة للمدونة</a>
+            <a href="index.html" class="btn">🏠 الصفحة الرئيسية</a>
+        </div>
+    </div>
+</body>
+</html>
