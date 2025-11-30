@@ -1,6 +1,29 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+    <!-- تحويل ذكي للروابط الأخرى إلى الرابط الرئيسي -->
+    <script>
+        // تحويل الروابط الأخرى إلى الرابط الرئيسي لـ AdSense
+        const currentUrl = window.location.href;
+        const mainDomain = 'regal-chebakia-dff020.netlify.app';
+        
+        // إذا كان الرابط ليس الرابط الرئيسي، قم بالتحويل
+        if (!currentUrl.includes(mainDomain) && !currentUrl.includes('localhost')) {
+            // احتفظ بالصفحة المطلوبة من الرابط القديم
+            const path = window.location.pathname;
+            const search = window.location.search;
+            const hash = window.location.hash;
+            let newUrl = 'https://' + mainDomain + path;
+            
+            // أضف parameters و hash إذا existed
+            if (search) newUrl += search;
+            if (hash) newUrl += hash;
+            
+            // تحويل إلى الرابط الرئيسي مع الحفاظ على الصفحة
+            window.location.href = newUrl;
+        }
+    </script>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>منصة صهيب - أدوات المطورين المجانية</title>
