@@ -28,29 +28,6 @@
     
     <!-- 📱 Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛠️</text></svg>">
-    
-    <!-- 🔗 Structured Data -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "منصة صهيب لأدوات المطورين",
-        "description": "منصة عربية مجانية تقدم أدوات تطوير متقدمة تعمل مباشرة في المتصفح - أدوات تحليل النصوص، التشفير، فحص الشبكة وتحليل البيانات",
-        "url": "https://regal-chebakia-dff020.netlify.app",
-        "applicationCategory": "DeveloperApplication",
-        "operatingSystem": "Any",
-        "permissions": "browser",
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-        },
-        "author": {
-            "@type": "Organization",
-            "name": "صهيب للمطورين"
-        }
-    }
-    </script>
 
     <style>
         * {
@@ -218,10 +195,10 @@
             display: block;
         }
 
-        /* 🆕 قسم من نحن */
+        /* 🆕 قسم من نحن - مصحح */
         .about-section {
             padding: 6rem 2rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
             color: white;
         }
 
@@ -239,8 +216,8 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .about-content h3 {
-            font-size: 2rem;
+        .about-content h2 {
+            font-size: 2.5rem;
             margin-bottom: 2rem;
             color: white;
         }
@@ -250,9 +227,10 @@
             line-height: 1.8;
             margin-bottom: 1.5rem;
             opacity: 0.95;
+            text-align: right;
         }
 
-        /* 🆕 قسم كيفية الاستخدام */
+        /* 🆕 قسم كيفية الاستخدام - مصحح */
         .tutorial-section {
             padding: 6rem 2rem;
             background: #f8f9fa;
@@ -270,6 +248,7 @@
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             border-right: 5px solid #667eea;
+            text-align: right;
         }
 
         .step-number {
@@ -283,21 +262,60 @@
             justify-content: center;
             font-weight: bold;
             margin-bottom: 1rem;
+            font-size: 1.2rem;
         }
 
-        /* 🆕 قسم اتصل بنا */
+        .step-card h3 {
+            color: #2d3748;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        .step-card p {
+            color: #4a5568;
+            line-height: 1.7;
+            font-size: 1.1rem;
+        }
+
+        /* 🆕 قسم اتصل بنا - مصحح */
         .contact-section {
             padding: 6rem 2rem;
-            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            color: white;
         }
 
         .contact-container {
             max-width: 600px;
             margin: 0 auto;
-            background: white;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
             padding: 3rem;
             border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+        }
+
+        .contact-container h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-container p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .contact-info {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 1.5rem;
+        }
+
+        .contact-info p {
+            margin: 0.5rem 0;
+            font-size: 1.1rem;
         }
 
         /* قسم التعليقات الخاص */
@@ -599,6 +617,7 @@
                 <a href="#apps" class="btn">التطبيقات</a>
                 <a href="#about" class="btn">من نحن</a>
                 <a href="#tutorial" class="btn">كيفية الاستخدام</a>
+                <a href="#contact" class="btn">اتصل بنا</a>
                 <a href="#feedback" class="btn">شارك رأيك</a>
             </div>
         </nav>
@@ -645,11 +664,11 @@
         </div>
     </section>
 
-    <!-- 🆕 قسم من نحن -->
+    <!-- 🆕 قسم من نحن - مصحح -->
     <section id="about" class="about-section">
         <div class="about-container">
             <div class="about-content">
-                <h3>من نحن 🌟</h3>
+                <h2>من نحن 🌟</h2>
                 <p><strong>صهيب للمطورين</strong> - منصة عربية مجانية تهدف إلى تمكين المطورين العرب من خلال توفير أدوات تطوير متقدمة تعمل مباشرة في المتصفح.</p>
                 
                 <p>نؤمن بأن الأدوات الجيدة يجب أن تكون في متناول الجميع. لهذا السبب نوفر مجموعة شاملة من الأدوات المجانية التي تساعد المطورين في عملهم اليومي دون الحاجة لتثبيت برامج إضافية.</p>
@@ -661,32 +680,32 @@
         </div>
     </section>
 
-    <!-- 🆕 قسم كيفية الاستخدام -->
+    <!-- 🆕 قسم كيفية الاستخدام - مصحح -->
     <section id="tutorial" class="tutorial-section">
         <h2 class="section-title">📚 كيفية استخدام المنصة</h2>
         <div class="tutorial-steps">
             <div class="step-card">
                 <div class="step-number">1</div>
                 <h3>اختر الأداة المناسبة</h3>
-                <p>تصفح قائمة أدواتنا واختر الأداة التي تحتاجها. كل أداة مصممة لحل مشكلة محددة في عملية التطوير.</p>
+                <p>تصفح قائمة أدواتنا واختر الأداة التي تحتاجها. كل أداة مصممة لحل مشكلة محددة في عملية التطوير. يمكنك تجربة عدة أدوات لترى أيها يناسب احتياجاتك.</p>
             </div>
             
             <div class="step-card">
                 <div class="step-number">2</div>
                 <h3>استخدم الأداة مباشرة</h3>
-                <p>ادخل البيانات المطلوبة في الحقول المخصصة. معظم أدواتنا تعمل فورياً دون الحاجة لضغط أي أزرار.</p>
+                <p>ادخل البيانات المطلوبة في الحقول المخصصة. معظم أدواتنا تعمل فورياً دون الحاجة لضغط أي أزرار. يمكنك تعديل المدخلات ورؤية النتائج تتغير مباشرة.</p>
             </div>
             
             <div class="step-card">
                 <div class="step-number">3</div>
                 <h3>احصل على النتائج</h3>
-                <p>ستظهر النتائج فوراً في منطقة المخرجات. يمكنك نسخ النتائج أو حفظها حسب احتياجك.</p>
+                <p>ستظهر النتائج فوراً في منطقة المخرجات. يمكنك نسخ النتائج أو حفظها حسب احتياجك. بعض الأدوات تقدم خيارات تصدير متعددة.</p>
             </div>
             
             <div class="step-card">
                 <div class="step-number">4</div>
                 <h3>شارك وتفاعل</h3>
-                <p>شاركنا رأيك واقتراحاتك. نطور أدواتنا بناءً على ملاحظاتكم واحتياجاتكم الحقيقية.</p>
+                <p>شاركنا رأيك واقتراحاتك. نطور أدواتنا بناءً على ملاحظاتكم واحتياجاتكم الحقيقية. آراؤكم تساعدنا في تحسين الخدمة باستمرار.</p>
             </div>
         </div>
     </section>
@@ -717,22 +736,23 @@
         </div>
     </section>
 
-    <!-- 🆕 قسم اتصل بنا -->
+    <!-- 🆕 قسم اتصل بنا - مصحح -->
     <section id="contact" class="contact-section">
-        <h2 class="section-title">📞 اتصل بنا</h2>
+        <h2 class="section-title" style="color: white;">📞 اتصل بنا</h2>
         <div class="contact-container">
             <h3>نحن هنا لمساعدتك</h3>
             <p>لديك استفسار أو اقتراح؟ نحن نحب أن نسمع منك!</p>
-            <div style="margin-top: 2rem;">
+            <div class="contact-info">
                 <p><strong>📧 البريد الإلكتروني:</strong> nourfgj10@gmail.com</p>
                 <p><strong>🌐 الموقع:</strong> regal-chebakia-dff020.netlify.app</p>
+                <p><strong>⏰ وقت الاستجابة:</strong> 24-48 ساعة</p>
             </div>
         </div>
     </section>
 
     <!-- 📝 قسم التعليقات الخاص -->
     <section id="feedback" class="feedback-section">
-        <h2 class="section-title" style="-webkit-text-fill-color: white; color: white;">📣 شاركنا رأيك</h2>
+        <h2 class="section-title" style="color: white;">📣 شاركنا رأيك</h2>
         <div class="feedback-container">
             <p style="text-align: center; margin-bottom: 2rem; font-size: 1.2rem;">
                 آراؤكم تهمنا! ساعدونا في تحسين أدواتنا وتطوير ما تحتاجونه حقاً.
