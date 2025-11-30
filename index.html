@@ -3,710 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أدوات المطورين العربية - منصة صهيب | تحليل نصوص، تشفير، فحص شبكة</title>
+    <title>أدوات المطورين العربية - منصة صهيب | شروحات برمجة وأدوات مجانية</title>
     
-    <!-- 🔍 SEO محسن -->
-    <meta name="description" content="منصة عربية شاملة لأدوات المطورين المجانية - أدوات تحليل النصوص، التشفير Base64، فحص الشبكة، تحليل JSON، اختبار APIs. تعمل مباشرة في المتصفح بدون تثبيت">
-    <meta name="keywords" content="أدوات المطورين, تحليل النصوص, تشفير base64, فحص الشبكة, أدوات ويب, مطورين عرب, أدوات مجانية, تطوير مواقع, برمجة, JSON, API, أدوات برمجة">
-    <meta name="author" content="صهيب للمطورين">
-    <meta name="robots" content="index, follow">
+    <meta name="description" content="منصة عربية شاملة لأدوات المطورين المجانية مع شروحات برمجة متعمقة - أدوات تحليل النصوص، التشفير Base64، فحص الشبكة، تحليل JSON، اختبار APIs وشروحات تقنية">
+    <meta name="keywords" content="أدوات المطورين, شروحات برمجة, تحليل النصوص, تشفير base64, فحص الشبكة, أدوات ويب, مطورين عرب, دروس برمجة, تطوير مواقع, JSON, API">
     
-    <!-- 🌐 Open Graph -->
-    <meta property="og:title" content="صهيب - منصة أدوات المطورين العربية الشاملة">
-    <meta property="og:description" content="أدوات تطوير متقدمة تعمل في المتصفح - تحليل نصوص، تشفير، فحص شبكة، تحليل JSON واختبار APIs">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://regal-chebakia-dff020.netlify.app">
-    
-    <!-- 🎯 كود Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3151915463034795" crossorigin="anonymous"></script>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-    
-    <!-- 🔍 تحقق Google Search Console -->
-    <meta name="google-site-verification" content="0Lw79edPQ8I66RxKSE-Y-YgJbHC540QAXJxqvS9hMcA" />
-    
-    <!-- 📱 Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛠️</text></svg>">
-
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Tajawal', sans-serif; background: #f8f9fa; color: #333; line-height: 1.8; }
         
-        body {
-            font-family: 'Tajawal', 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #333;
-            line-height: 1.6;
-            min-height: 100vh;
-        }
-
-        .header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1rem 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 30px rgba(0, 0, 0, 0.1);
-            border-bottom: 3px solid #667eea;
-        }
-
-        .nav {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 800;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-decoration: none;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 12px 25px;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.9);
-            color: #667eea;
-            border: 2px solid rgba(255, 255, 255, 0.9);
-            font-weight: bold;
-        }
-
-        .btn-secondary:hover {
-            background: #667eea;
-            color: white;
-        }
-
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9));
-            color: white;
-            padding: 0 2rem;
-            margin-top: 0;
-        }
-
-        .hero-content h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            animation: fadeInUp 1s ease;
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .hero-content p {
-            font-size: 1.3rem;
-            margin-bottom: 2.5rem;
-            opacity: 0.95;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.8;
-        }
-
-        .apps-section {
-            padding: 6rem 2rem;
-            background: rgba(255, 255, 255, 0.95);
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .apps-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2.5rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .app-card {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            text-align: center;
-            border: 1px solid rgba(102, 126, 234, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .app-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-        }
-
-        .app-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
-        }
-
-        .app-icon {
-            font-size: 4rem;
-            margin-bottom: 1.5rem;
-            display: block;
-        }
-
-        .app-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: #2d3748;
-        }
-
-        .app-card p {
-            color: #4a5568;
-            line-height: 1.7;
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
-        }
-
-        /* قسم من نحن */
-        .about-section {
-            padding: 6rem 2rem;
-            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
-            color: white;
-        }
-
-        .about-container {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .about-content {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 3rem;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .about-content h2 {
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            color: white;
-        }
-
-        .about-content p {
-            font-size: 1.2rem;
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
-            opacity: 0.95;
-            text-align: right;
-        }
-
-        /* قسم المدونة */
-        .blog-preview {
-            padding: 6rem 2rem;
-            background: #f8f9fa;
-        }
-
-        .blog-articles {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-        }
-
-        .blog-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            border-right: 4px solid #667eea;
-        }
-
-        .blog-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-        }
-
-        .blog-card h3 {
-            color: #2d3748;
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
-        }
-
-        .blog-card p {
-            color: #4a5568;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-        }
-
-        .blog-meta {
-            color: #718096;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-        }
-
-        /* قسم كيفية الاستخدام */
-        .tutorial-section {
-            padding: 6rem 2rem;
-            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-        }
-
-        .tutorial-steps {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .step-card {
-            background: white;
-            padding: 2rem;
-            margin: 1.5rem 0;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            border-right: 5px solid #667eea;
-            text-align: right;
-        }
-
-        .step-number {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
-        }
-
-        .step-card h3 {
-            color: #2d3748;
-            margin-bottom: 1rem;
-            font-size: 1.4rem;
-        }
-
-        .step-card p {
-            color: #4a5568;
-            line-height: 1.7;
-            font-size: 1.1rem;
-        }
-
-        /* قسم اتصل بنا */
-        .contact-section {
-            padding: 6rem 2rem;
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
-            color: white;
-        }
-
-        .contact-container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 3rem;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            text-align: center;
-        }
-
-        .contact-container h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .contact-container p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-
-        .contact-info {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin-top: 1.5rem;
-        }
-
-        .contact-info p {
-            margin: 0.5rem 0;
-            font-size: 1.1rem;
-        }
-
-        /* قسم التعليقات */
-        .feedback-section {
-            padding: 6rem 2rem;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-        }
-
-        .feedback-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 3rem;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .feedback-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .form-group label {
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
-
-        .form-group select,
-        .form-group textarea,
-        .form-group input {
-            padding: 15px;
-            border: none;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.9);
-            font-family: 'Tajawal', sans-serif;
-            font-size: 1rem;
-            resize: vertical;
-            color: #333;
-        }
-
-        .form-group textarea {
-            min-height: 120px;
-        }
-
-        .btn-submit {
-            background: linear-gradient(45deg, #4ecdc4, #44a08d);
-            color: white;
-            padding: 18px;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-submit:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        .success-message {
-            display: none;
-            background: rgba(255, 255, 255, 0.9);
-            color: #10b981;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            margin: 20px 0;
-            font-weight: bold;
-        }
-
-        .captcha-box {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            border: 2px solid #4ecdc4;
-        }
-
-        .captcha-question {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        .captcha-input {
-            padding: 12px;
-            border: 2px solid #667eea;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            text-align: center;
-            width: 100px;
-            margin: 0 auto;
-        }
-
-        .captcha-error {
-            color: #ff6b6b;
-            font-weight: bold;
-            margin-top: 5px;
-            display: none;
-        }
-
-        .footer {
-            background: #2d3748;
-            color: white;
-            text-align: center;
-            padding: 3rem 2rem;
-        }
-
-        .live-indicator {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 12px 20px;
-            border-radius: 25px;
-            font-size: 0.9rem;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            color: #333;
-        }
-
-        .live-dot {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            background: #10b981;
-            border-radius: 50%;
-            margin-right: 8px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.2); opacity: 0.7; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
+        .header { background: white; padding: 1rem 0; position: fixed; width: 100%; top: 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 1000; }
+        .nav { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 2rem; }
+        .logo { font-size: 1.5rem; font-weight: bold; color: #667eea; text-decoration: none; }
+        .nav-links { display: flex; gap: 1rem; }
+        .nav-links a { color: #333; text-decoration: none; padding: 0.5rem 1rem; border-radius: 5px; }
+        .nav-links a:hover { background: #667eea; color: white; }
+        
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 8rem 2rem 4rem; text-align: center; }
+        .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.2rem; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .btn { display: inline-block; padding: 12px 30px; background: #ff6b6b; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; margin: 0 10px; }
+        .btn-secondary { background: transparent; border: 2px solid white; }
+        
+        .content-section { padding: 4rem 2rem; max-width: 1200px; margin: 0 auto; }
+        .section-title { text-align: center; font-size: 2rem; margin-bottom: 3rem; color: #667eea; }
+        
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 4rem; }
+        .tool-card { background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); text-align: center; }
+        .tool-card h3 { color: #667eea; margin-bottom: 1rem; }
+        
+        .articles-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .article-card { background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .article-card h3 { color: #667eea; margin-bottom: 1rem; }
+        
+        .tutorial-section { background: #e9ecef; padding: 4rem 2rem; }
+        .tutorial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; }
+        .tutorial-card { background: white; padding: 1.5rem; border-radius: 10px; text-align: center; }
+        
+        .footer { background: #2d3748; color: white; text-align: center; padding: 2rem; margin-top: 4rem; }
+        
         @media (max-width: 768px) {
-            .hero-content h1 {
-                font-size: 2.5rem;
-            }
-            
-            .nav {
-                padding: 0 1rem;
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .apps-grid, .blog-articles {
-                grid-template-columns: 1fr;
-            }
-            
-            .btn {
-                padding: 10px 20px;
-                font-size: 0.9rem;
-            }
+            .nav { flex-direction: column; gap: 1rem; }
+            .hero h1 { font-size: 2rem; }
+            .tools-grid, .articles-grid, .tutorial-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <!-- مؤشر النشاط -->
-    <div class="live-indicator">
-        <span class="live-dot"></span>
-        <span id="statusText">التطبيقات نشطة</span>
-    </div>
-
     <header class="header">
         <nav class="nav">
             <a href="index.html" class="logo">🛠️ صهيب للمطورين</a>
             <div class="nav-links">
-                <a href="#apps" class="btn">التطبيقات</a>
-                <a href="blog.html" class="btn">المدونة</a>
-                <a href="#about" class="btn">من نحن</a>
-                <a href="#tutorial" class="btn">كيفية الاستخدام</a>
-                <a href="#contact" class="btn">اتصل بنا</a>
-                <a href="#feedback" class="btn">شارك رأيك</a>
+                <a href="#tools">الأدوات</a>
+                <a href="blog.html">المدونة</a>
+                <a href="tutorials.html">الشروحات</a>
+                <a href="about.html">من نحن</a>
+                <a href="contact.html">اتصل بنا</a>
             </div>
         </nav>
     </header>
 
     <section class="hero">
-        <div class="hero-content">
-            <h1>🚀 منصة أدوات المطورين الشاملة</h1>
-            <p>اكتشف مجموعة متكاملة من أدوات التطوير المتقدمة التي تعمل مباشرة في متصفحك. أدوات مجانية 100% لتحليل النصوص، التشفير، فحص الشبكة، وتحليل البيانات - مصممة خصيصاً للمطورين العرب.</p>
-            <div>
-                <a href="#apps" class="btn">استكشف الأدوات</a>
-                <a href="blog.html" class="btn btn-secondary">اقرأ المدونة</a>
+        <h1>🚀 منصة المطورين العربية الشاملة</h1>
+        <p>أدوات تطوير مجانية مع شروحات برمجة متعمقة لتحسين مهاراتك في تطوير الويب والبرمجة</p>
+        <div>
+            <a href="#tools" class="btn">استكشف الأدوات</a>
+            <a href="tutorials.html" class="btn btn-secondary">ابدأ التعلم</a>
+        </div>
+    </section>
+
+    <!-- قسم المحتوى التعليمي -->
+    <section class="content-section">
+        <h2 class="section-title">📚 شروحات برمجة مجانية</h2>
+        <div class="articles-grid">
+            <div class="article-card">
+                <h3>🎯 دليل تشفير Base64 الشامل</h3>
+                <p>تعلم كل شيء عن تشفير Base64 من الأساسيات إلى التقنيات المتقدمة. شرح مفصل مع أمثلة عملية ونصائح أمنية.</p>
+                <a href="article-base64.html" class="btn" style="padding: 8px 15px; font-size: 0.9rem;">اقرأ الدرس</a>
+            </div>
+            <div class="article-card">
+                <h3>🌐 أساسيات فحص الشبكة</h3>
+                <p>دليل كامل لفحص الشبكة وتشخيص مشاكل الاتصال. تعلم استخدام أدوات الفحص وتحليل النتائج.</p>
+                <a href="article-network.html" class="btn" style="padding: 8px 15px; font-size: 0.9rem;">اقرأ الدرس</a>
+            </div>
+            <div class="article-card">
+                <h3>🔧 إتقان أدوات المطورين</h3>
+                <p>تعلم استخدام أدوات التطوير الحديثة لتحسين إنتاجيتك وكفاءة عملك في البرمجة.</p>
+                <a href="article-tools.html" class="btn" style="padding: 8px 15px; font-size: 0.9rem;">اقرأ الدرس</a>
             </div>
         </div>
     </section>
 
-    <!-- قسم التطبيقات -->
-    <section id="apps" class="apps-section">
-        <h2 class="section-title">🛠️ أداتنا المتاحة</h2>
-        <div class="apps-grid">
-            <div class="app-card">
-                <div class="app-icon">🧩</div>
-                <h3>Matrix Dev Tools</h3>
-                <p>منصة متكاملة بأدوات متقدمة لواجهة Matrix الاحترافية. استخدم أدوات تحليل النصوص المتقدمة، أنظمة التشفير الآمنة، محولات البيانات الذكية، ومولدات الألوان الاحترافية. مثالية للمطورين الذين يبحثون عن تجربة فريدة وأداء استثنائي.</p>
-                <a href="matrix-tools.html" class="btn">🚀 ابدأ الآن</a>
+    <!-- قسم الأدوات -->
+    <section id="tools" class="content-section">
+        <h2 class="section-title">🛠️ أدواتنا المجانية</h2>
+        <div class="tools-grid">
+            <div class="tool-card">
+                <h3>🧩 Matrix Dev Tools</h3>
+                <p>أدوات متقدمة لتحليل النصوص، التشفير، وتحويل البيانات بواجهة Matrix احترافية</p>
+                <a href="matrix-tools.html" class="btn" style="padding: 8px 15px; font-size: 0.9rem;">استخدم الأداة</a>
             </div>
-            
-            <div class="app-card">
-                <div class="app-icon">🌐</div>
-                <h3>NetAnalyzer Pro</h3>
-                <p>أداة متطورة لفحص الشبكة الشامل واختبار أداء الإنترنت. تقوم بتحليل اتصالك بدقة، كشف المعلومات التقنية المتقدمة عن متصفحك، وتقديم تقارير مفصلة عن أداء الشبكة. أساسية لمطوري الويب ومحللي الشبكات.</p>
-                <a href="netanalyzer.html" class="btn">🔍 فحص الشبكة</a>
+            <div class="tool-card">
+                <h3>🌐 NetAnalyzer Pro</h3>
+                <p>فحص الشبكة الشامل واختبار سرعة الإنترنت مع تحليل مفصل لأداء الاتصال</p>
+                <a href="netanalyzer.html" class="btn" style="padding: 8px 15px; font-size: 0.9rem;">استخدم الأداة</a>
             </div>
-
-            <div class="app-card">
-                <div class="app-icon">⚡</div>
-                <h3>مركز أدوات المطورين</h3>
-                <p>مجموعة شاملة من الأدوات الأساسية للمطورين تشمل محلل JSON المتقدم، مختبر APIs المحترف، أنظمة تشفير Base64 الآمنة، ومولدات كلمات المرور القوية. كل ما يحتاجه المطور في مكان واحد.</p>
-                <a href="dev-hub.html" class="btn">🚀 ابدأ الآن</a>
+            <div class="tool-card">
+                <h3>⚡ مركز أدوات المطورين</h3>
+                <p>مجموعة شاملة من الأدوات: تحليل JSON، اختبار APIs، تشفير Base64، ومولد كلمات المرور</p>
+                <a href="dev-hub.html" class="btn" style="padding: 8px 15px; font-size: 0.9rem;">استخدم الأداة</a>
             </div>
         </div>
     </section>
 
-    <!-- قسم المدونة -->
-    <section class="blog-preview">
-        <h2 class="section-title">📚 أحدث المقالات التقنية</h2>
-        <div class="blog-articles">
-            <div class="blog-card">
-                <div class="blog-meta">📅 19 نوفمبر 2024 | ⏱️ 5 دقائق</div>
-                <h3>🎯 الدليل الشامل لأدوات المطورين</h3>
-                <p>تعلم كيفية الاستفادة القصوى من أدوات منصة صهيب. دليل مفصل بتقنيات متقدمة لتحسين سير العمل اليومي للمطورين.</p>
-                <a href="blog.html" class="btn">اقرأ المزيد</a>
+    <!-- قسم الشروحات -->
+    <section class="tutorial-section">
+        <h2 class="section-title">🎓 ابدأ رحلة التعلم</h2>
+        <div class="tutorial-grid">
+            <div class="tutorial-card">
+                <h3>📖 أساسيات البرمجة</h3>
+                <p>دروس مبسطة للمبتدئين في عالم البرمجة والتطوير</p>
+                <a href="tutorial-basics.html" class="btn" style="padding: 8px 15px; font-size: 0.9rem;">ابدأ التعلم</a>
             </div>
-            
-            <div class="blog-card">
-                <div class="blog-meta">📅 18 نوفمبر 2024 | ⏱️ 7 دقائق</div>
-                <h3>🔐 أسرار تشفير Base64</h3>
-                <p>كل ما تحتاج معرفته عن تشفير Base64 من الأساسيات إلى التقنيات المتقدمة. دليل عملي مع أمثلة حقيقية.</p>
-                <a href="blog.html" class="btn">اقرأ المزيد</a>
+            <div class="tutorial-card">
+                <h3>🌐 تطوير الويب</h3>
+                <p>تعلم HTML, CSS, JavaScript وبناء مواقع ويب احترافية</p>
+                <a href="tutorial-web.html" class="btn" style="padding: 8px 15px; font-size: 0.9rem;">ابدأ التعلم</a>
             </div>
-            
-            <div class="blog-card">
-                <div class="blog-meta">📅 17 نوفمبر 2024 | ⏱️ 6 دقائق</div>
-                <h3>🌐 إتقان فحص الشبكة</h3>
-                <p>دليل كامل من البداية إلى الاحتراف في فحص الشبكة. تعلم تفسير النتائج وتحسين أداء اتصالك.</p>
-                <a href="blog.html" class="btn">اقرأ المزيد</a>
+            <div class="tutorial-card">
+                <h3>🔧 أدوات متقدمة</h3>
+                <p>إتقان استخدام أدوات التطوير الحديثة والمكتبات</p>
+                <a href="tutorial-tools.html" class="btn" style="padding: 8px 15px; font-size: 0.9rem;">ابدأ التعلم</a>
             </div>
         </div>
     </section>
 
-    <!-- قسم من نحن -->
-    <section id="about" class="about-section">
-        <div class="about-container">
-            <div class="about-content">
-                <h2>من نحن 🌟</h2>
-                <p><strong>صهيب للمطورين</strong> - منصة عربية رائدة تهدف إلى تمكين المطورين العرب من خلال توفير أدوات تطوير متقدمة تعمل مباشرة في المتصفح دون الحاجة لتثبيت أي برامج إضافية.</p>
-                
-                <p>نؤمن إيماناً راسخاً بأن الأدوات التقنية الجيدة يجب أن تكون في متناول جميع المطورين بغض النظر عن مستواهم التقني أو مواردهم المالية. من هذا المبدأ، قمنا بتطوير مجموعة شاملة من الأدوات المجانية التي تلبي احتياجات المطورين في عملهم اليومي.</p>
-                
-                <p>رؤيتنا تمتد beyond مجرد توفير الأدوات؛ نحن نسعى لبناء مجتمع عربي تقني يتبادل المعرفة والخبرات، ويساهم في تطوير ecosystem التطوير العربي. نعمل باستمرار على تطوير أدواتنا بناءً على ملاحظاتكم واحتياجاتكم الحقيقية.</p>
-                
-                <p>جميع أدواتنا مصممة خصيصاً لتلبي متطلبات المطورين العرب، مع واجهات مستخدم عربية سلسلة، تجربة استخدام مريحة، وأداء استثنائي يعمل على جميع الأجهزة.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- قسم كيفية الاستخدام -->
-    <section id="tutorial" class="tutorial-section">
-        <h2 class="section-title">📖 كيفية استخدام المنصة</h2>
-        <div class="tutorial-steps">
-            <div class="step-card">
-                <div class="step-number">1</div>
-                <h3>اكتشف الأدوات المناسبة</h3>
-                <p>تصفح مجموعتنا الشاملة من الأدوات واختر ما يناسب احتياجاتك. كل أداة مصممة لحل تحدي محدد في رحلة التطوير. يمكنك تجربة multiple أدوات لمعرفة أيها الأكثر ملاءمة لمشروعك.</p>
-            </div>
-            
-            <div class="step-card">
-                <div class="step-number">2</div>
-                <h3>استخدم الأداة بسهولة</h3>
-                <p>ادخل البيانات المطلوبة في الحقول المخصصة. معظم أدواتنا تعمل بشكل فوري وتفاعلي، حيث ترى النتائج تتغير مباشرة مع كل تعديل تقوم به في المدخلات.</p>
-            </div>
-            
-            <div class="step-card">
-                <div class="step-number">3</div>
-                <h3>احصل على نتائج دقيقة</h3>
-                <p>ستظهر النتائج فوراً في منطقة المخرجات المخصصة. يمكنك نسخ النتائج بنقرة واحدة، أو استخدام خيارات التصدير المتعددة المتاحة في بعض الأدوات.</p>
-            </div>
-            
-            <div class="step-card">
-                <div class="step-number">4</div>
-                <h3>شارك بتجربتك</h3>
-                <p>مشاركتك لرأيك واقتراحاتك تساعدنا في تحسين الخدمة باستمرار. نطور أدواتنا بناءً على feedback المستخدمين الحقيقيين واحتياجاتهم العملية.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- قسم اتصل بنا -->
-    <section id="contact" class="contact-section">
-        <h2 class="section-title" style="color: white;">📞 اتصل بنا</h2>
-        <div class="contact-container">
-            <h2>نحن هنا لمساعدتك</h2>
-            <p>لديك استفسار، اقتراح، أو تحتاج مساعدة تقنية؟ فريق دعمنا مستعد للرد على استفساراتك.</p>
-            <div class="contact-info">
-                <p><strong>📧 البريد الإلكتروني:</strong> nourfgj10@gmail.com</p>
-                <p><strong>🌐 الموقع الإلكتروني:</strong> regal-chebakia-dff020.netlify.app</p>
-                <p><strong>⏰ وقت الاستجابة:</strong> 24-48 ساعة</p>
-                <p><strong>🛠️ نوع الدعم:</strong> فني وتقني</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- قسم التعليقات -->
-    <section id="feedback" class="feedback-section">
-        <h2 class="section-title" style="color: white;">💬 شاركنا رأيك</h2>
-        <div class="feedback-container">
-            <p style="text-align: center; margin-bottom: 2rem; font-size: 1.2rem;">
-                ملاحظاتكم تقود تحسيننا المستمر. شاركنا تجربتك واقتراحاتك لنساعد بعضنا في البناء
+    <footer class="footer">
+        <p>© 2024 صهيب للمطورين. جميع الحقوق محفوظة.</p>
+        <p>
+            <a href="about.html" style="color: #fff; margin: 0 1rem;">من نحن</a>
+            <a href="privacy.html" style="color: #fff; margin: 0 1rem;">سياسة الخصوصية</a>
+            <a href="contact.html" style="color: #fff; margin: 0 1rem;">اتصل بنا</a>
+        </p>
+    </footer>
+</body>
+</html>

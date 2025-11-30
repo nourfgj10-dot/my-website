@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExpressDeals - Global Shopping Deals</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #ff4747;
+            --secondary: #ff6b6b;
+            --accent: #ffd166;
+            --dark: #2d3748;
+            --light: #ffffff;
+            --success: #00c853;
+            --border: #e5e7eb;
+            --bg-light: #f8f9fa;
+            --gradient: linear-gradient(135deg, #ff4747 0%, #ff6b6b 100%);
+            --gradient-hover: linear-gradient(135deg, #e53e3e 0%, #ff4747 100%);
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-light);
+            color: var(--dark);
+            line-height: 1.5;
+        }
+
+        /* تحسينات الشاشة */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* الهيدر على نمط AliExpress */
+        .header {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            gap: 30px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .search-box {
+            flex: 1;
+            max-width: 600px;
+            display: flex;
+            background: white;
+            border: 2px solid var(--primary);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+            padding: 10px 15px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--dark);
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .nav-link:hover {
+            background: var(--bg-light);
+        }
+
+        /* الهيرو مبسط */
+        .hero {
+            background: linear-gradient(135deg, #ff4747 0%, #ff6b6b 100%);
+            color: white;
+            padding: 120px 0 60px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .hero-title {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .hero-subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+        /* شبكة المنتجات مثل AliExpress */
+        .products-section {
+            padding: 30px 0;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        .product-card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-2px);
+        }
+
+        .product-image {
+            height: 180px;
+            background: var(--bg-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            position: relative;
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: var(--success);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .product-content {
+            padding: 12px;
+        }
+
+        .product-title {
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--dark);
+            line-height: 1.4;
+            height: 36px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+
+        .star {
+            color: #ffd700;
+            font-size: 12px;
+        }
+
+        .rating-count {
+            color: #666;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+
+        .product-price {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .price-new {
+            color: var(--primary);
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .price-old {
+            color: #999;
+            font-size: 12px;
+            text-decoration: line-through;
+        }
+
+        .sold-count {
+            color: #666;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .product-btn {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+
+        .product-btn:hover {
+            background: var(--secondary);
+        }
+
+        /* الفئات */
+        .categories {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            background: white;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .category-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* الفوتر */
+        .footer {
+            background: white;
+            border-top: 1px solid var(--border);
+            padding: 40px 0 20px;
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h4 {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 8px;
+        }
+
+        .footer-links a {
+            color: #666;
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            color: #666;
+            font-size: 12px;
+        }
+
+        /* التجاوب */
+        @media (max-width: 768px) {
+            .nav {
+                flex-direction: column;
+                gap: 15px;
+                padding: 10px 0;
+            }
+            
+            .search-box {
+                max-width: 100%;
+                order: 3;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 10px;
+            }
+            
+            .hero {
+                padding: 100px 0 40px;
+                margin-top: 120px;
+            }
+            
+            .hero-title {
+                font-size: 28px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .product-image {
+                height: 140px;
+                font-size: 30px;
+            }
+        }
+
+        .commission-badge {
+            background: #e8f5e8;
+            color: var(--success);
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 500;
+            margin-top: 5px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <!-- الهيدر -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="#" class="logo">ExpressDeals</a>
+                
+                <div class="search-box">
+                    <input type="text" class="search-input" placeholder="ابحث عن منتجات...">
+                    <button class="search-btn">بحث</button>
+                </div>
+                
+                <div class="nav-links">
+                    <a href="#home" class="nav-link">الرئيسية</a>
+                    <a href="#products" class="nav-link">العروض</a>
+                    <a href="#categories" class="nav-link">الفئات</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- الهيرو -->
+    <section id="home" class="hero">
+        <div class="container">
+            <h1 class="hero-title">أفضل العروض والصفقات</h1>
+            <p class="hero-subtitle">تسوق بذكاء ووفر أكثر مع أفضل الأسعار من حول العالم</p>
+        </div>
+    </section>
+
+    <!-- العروض -->
+    <section id="products" class="products-section">
+        <div class="container">
+            <h2 class="section-title">المنتجات المميزة</h2>
+            
+            <div class="categories">
+                <button class="category-btn active">جميع المنتجات</button>
+                <button class="category-btn">إلكترونيات</button>
+                <button class="category-btn">أدوات</button>
+                <button class="category-btn">موازين</button>
+                <button class="category-btn">هواتف</button>
+                <button class="category-btn">أجهزة ذكية</button>
+            </div>
+            
+            <div class="products-grid">
+                <!-- منتج 1 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <span>🎧</span>
+                        <div class="product-badge">عرض خاص</div>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">سماعات لينوفو GM2 Pro للألعاب بلوتوث 5.3</h3>
+                        <div class="product-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="rating-count">(4.8)</span>
+                        </div>
+                        <div class="sold-count">36,123 مباع</div>
+                        <div class="product-price">
+                            <span class="price-new">$0.99</span>
+                            <span class="price-old">$21.90</span>
+                        </div>
+                        <div class="commission-badge">عمولة: $0.07</div>
+                        <a href="https://s.click.aliexpress.com/e/_EvUc4ys" class="product-btn" target="_blank">اشتري الآن</a>
+                    </div>
+                </div>
+
+                <!-- منتج 2 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <span>🔧</span>
+                        <div class="product-badge">الأكثر مبيعاً</div>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">قلم لحام لإصلاح أجهزة Xbox PS4 PS5</h3>
+                        <div class="product-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="rating-count">(4.8)</span>
+                        </div>
+                        <div class="sold-count">2,243 مباع</div>
+                        <div class="product-price">
+                            <span class="price-new">$2.78</span>
+                            <span class="price-old">$16.60</span>
+                        </div>
+                        <div class="commission-badge">عمولة: $0.19</div>
+                        <a href="https://s.click.aliexpress.com/e/_EQ8cH0y" class="product-btn" target="_blank">اشتري الآن</a>
+                    </div>
+                </div>
+
+                <!-- منتج 3 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <span>⚖️</span>
+                        <div class="product-badge">شحن مجاني</div>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">ميزان جيب دقيق 1000جرام x 0.01جرام رقمي</h3>
+                        <div class="product-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="rating-count">(4.9)</span>
+                        </div>
+                        <div class="sold-count">8,456 مباع</div>
+                        <div class="product-price">
+                            <span class="price-new">$8.99</span>
+                            <span class="price-old">$15.99</span>
+                        </div>
+                        <div class="commission-badge">عمولة: $0.63</div>
+                        <a href="https://s.click.aliexpress.com/e/_EJBoGbq" class="product-btn" target="_blank">اشتري الآن</a>
+                    </div>
+                </div>
+
+                <!-- منتج 4 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <span>🔌</span>
+                        <div class="product-badge">جديد</div>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">محطة لحام بدرجة حرارة قابلة للضبط مع رأس تحكم</h3>
+                        <div class="product-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="rating-count">(4.7)</span>
+                        </div>
+                        <div class="sold-count">1,234 مباع</div>
+                        <div class="product-price">
+                            <span class="price-new">$29.99</span>
+                            <span class="price-old">$45.00</span>
+                        </div>
+                        <div class="commission-badge">عمولة: $2.10</div>
+                        <a href="https://s.click.aliexpress.com/e/_Ew8BvgU" class="product-btn" target="_blank">اشتري الآن</a>
+                    </div>
+                </div>
+
+                <!-- منتج 5 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <span>📱</span>
+                        <div class="product-badge">تكنولوجيا</div>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">جهاز كشف تسرب الماء الذكي ME201W WiFi</h3>
+                        <div class="product-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="rating-count">(4.9)</span>
+                        </div>
+                        <div class="sold-count">3,567 مباع</div>
+                        <div class="product-price">
+                            <span class="price-new">$59.99</span>
+                            <span class="price-old">$89.99</span>
+                        </div>
+                        <div class="commission-badge">عمولة: $4.20</div>
+                        <a href="https://s.click.aliexpress.com/e/_EH5m9Fi" class="product-btn" target="_blank">اشتري الآن</a>
+                    </div>
+                </div>
+
+                <!-- منتج 6 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <span>💎</span>
+                        <div class="product-badge">محمول</div>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">ميزان مجوهرات رقمي 500جرام/0.01جرام محمول</h3>
+                        <div class="product-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="rating-count">(4.6)</span>
+                        </div>
+                        <div class="sold-count">5,678 مباع</div>
+                        <div class="product-price">
+                            <span class="price-new">$6.99</span>
+                            <span class="price-old">$12.99</span>
+                        </div>
+                        <div class="commission-badge">عمولة: $0.49</div>
+                        <a href="https://s.click.aliexpress.com/e/_EIrYrG8" class="product-btn" target="_blank">اشتري الآن</a>
+                    </div>
+                </div>
+
+                <!-- منتج 7 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <span>📱</span>
+                        <div class="product-badge">هاتف ذكي</div>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">هاتف realme C75 بشاشة 6.7 بوصة وبطارية 5828mAh</h3>
+                        <div class="product-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="rating-count">(4.8)</span>
+                        </div>
+                        <div class="sold-count">12,345 مباع</div>
+                        <div class="product-price">
+                            <span class="price-new">$199.99</span>
+                            <span class="price-old">$299.99</span>
+                        </div>
+                        <div class="commission-badge">عمولة: $14.00</div>
+                        <a href="https://s.click.aliexpress.com/e/_EGtjfWY" class="product-btn" target="_blank">اشتري الآن</a>
+                    </div>
+                </div>
+
+                <!-- منتج 8 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <span>🍳</span>
+                        <div class="product-badge">مطبخ</div>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">ميزان مطبخ رقمي 5kg/1g بشاشة LED</h3>
+                        <div class="product-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="rating-count">(4.5)</span>
+                        </div>
+                        <div class="sold-count">7,890 مباع</div>
+                        <div class="product-price">
+                            <span class="price-new">$12.99</span>
+                            <span class="price-old">$19.99</span>
+                        </div>
+                        <div class="commission-badge">عمولة: $0.91</div>
+                        <a href="https://s.click.aliexpress.com/e/_Ey0sdL2" class="product-btn" target="_blank">اشتري الآن</a>
+                    </div>
+                </div>
+
+                <!-- منتج 9 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <span>🔧</span>
+                        <div class="product-badge">أداة</div>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">رأس قلم لحام T12 لـ PS5 PS4 XBOX Switch Pro</h3>
+                        <div class="product-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="rating-count">(4.7)</span>
+                        </div>
+                        <div class="sold-count">3,456 مباع</div>
+                        <div class="product-price">
+                            <span class="price-new">$4.99</span>
+                            <span class="price-old">$9.99</span>
+                        </div>
+                        <div class="commission-badge">عمولة: $0.35</div>
+                        <a href="https://s.click.aliexpress.com/e/_EvDCqzS" class="product-btn" target="_blank">اشتري الآن</a>
+                    </div>
+                </div>
+
+                <!-- منتج 10 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <span>🏠</span>
+                        <div class="product-badge">منزل ذكي</div>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">كاشف تسرب ماء ذكي ME201W بدقة عالية WiFi</h3>
+                        <div class="product-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="rating-count">(4.8)</span>
+                        </div>
+                        <div class="sold-count">2,345 مباع</div>
+                        <div class="product-price">
+                            <span class="price-new">$49.99</span>
+                            <span class="price-old">$79.99</span>
+                        </div>
+                        <div class="commission-badge">عمولة: $3.50</div>
+                        <a href="https://s.click.aliexpress.com/e/_EzpjtSu" class="product-btn" target="_blank">اشتري الآن</a>
+                    </div>
+                </div>
+
+                <!-- منتج 11 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <span>🌊</span>
+                        <div class="product-badge">استشعار</div>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">مستشعر تحت الماء Moray ME202W 5m تطبيق Tuya</h3>
+                        <div class="product-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="rating-count">(4.6)</span>
+                        </div>
+                        <div class="sold-count">1,567 مباع</div>
+                        <div class="product-price">
+                            <span class="price-new">$34.99</span>
+                            <span class="price-old">$49.99</span>
+                        </div>
+                        <div class="commission-badge">عمولة: $2.45</div>
+                        <a href="https://s.click.aliexpress.com/e/_EuOZlIo" class="product-btn" target="_blank">اشتري الآن</a>
+                    </div>
+                </div>
+
+                <!-- منتج 12 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <span>⚖️</span>
+                        <div class="product-badge">دقيق</div>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">ميزان جيب عالي الدقة 500جرام/0.01جرام</h3>
+                        <div class="product-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="rating-count">(4.7)</span>
+                        </div>
+                        <div class="sold-count">4,321 مباع</div>
+                        <div class="product-price">
+                            <span class="price-new">$7.49</span>
+                            <span class="price-old">$14.99</span>
+                        </div>
+                        <div class="commission-badge">عمولة: $0.52</div>
+                        <a href="https://s.click.aliexpress.com/e/_Evc6ptm" class="product-btn" target="_blank">اشتري الآن</a>
+                    </div>
+                </div>
+
+                <!-- منتج 13 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <span>⛽</span>
+                        <div class="product-badge">مستشعر</div>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">مستشعر مستوى الوقود والنفط عن بعد للخزانات</h3>
+                        <div class="product-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="rating-count">(4.4)</span>
+                        </div>
+                        <div class="sold-count">987 مباع</div>
+                        <div class="product-price">
+                            <span class="price-new">$24.99</span>
+                            <span class="price-old">$39.99</span>
+                        </div>
+                        <div class="commission-badge">عمولة: $1.75</div>
+                        <a href="https://s.click.aliexpress.com/e/_Ez9IFvI" class="product-btn" target="_blank">اشتري الآن</a>
+                    </div>
+                </div>
+
+                <!-- منتج 14 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <span>⚖️</span>
+                        <div class="product-badge">ميني</div>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">ميزان جيب دقيق 500جرام/0.01جرام رقمي محمول</h3>
+                        <div class="product-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="rating-count">(4.8)</span>
+                        </div>
+                        <div class="sold-count">6,543 مباع</div>
+                        <div class="product-price">
+                            <span class="price-new">$6.79</span>
+                            <span class="price-old">$13.99</span>
+                        </div>
+                        <div class="commission-badge">عمولة: $0.48</div>
+                        <a href="https://s.click.aliexpress.com/e/_EwXgyLW" class="product-btn" target="_blank">اشتري الآن</a>
+                    </div>
+                </div>
+
+                <!-- منتج 15 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <span>🎧</span>
+                        <div class="product-badge">لاسلكي</div>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">سماعات لينوفو GM2 Pro TWS ستريو HIFI لاسلكية</h3>
+                        <div class="product-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="rating-count">(4.9)</span>
+                        </div>
+                        <div class="sold-count">15,678 مباع</div>
+                        <div class="product-price">
+                            <span class="price-new">$1.29</span>
+                            <span class="price-old">$24.90</span>
+                        </div>
+                        <div class="commission-badge">عمولة: $0.09</div>
+                        <a href="https://s.click.aliexpress.com/e/_Ezlr9zO" class="product-btn" target="_blank">اشتري الآن</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- الفوتر -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>ExpressDeals</h4>
+                    <p>منصة تسوق عالمية تقدم أفضل المنتجات بأفضل الأسعار</p>
+                </div>
+                <div class="footer-section">
+                    <h4>روابط سريعة</h4>
+                    <ul class="footer-links">
+                        <li><a href="#home">الرئيسية</a></li>
+                        <li><a href="#products">العروض</a></li>
+                        <li><a href="#categories">الفئات</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>الدعم</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">مساعدة</a></li>
+                        <li><a href="#">اتصل بنا</a></li>
+                        <li><a href="#">الشروط والأحكام</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 ExpressDeals. جميع الحقوق محفوظة</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // تصفية الفئات
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+
+        // التمرير السلس
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
